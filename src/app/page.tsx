@@ -70,7 +70,7 @@ export default function Home() {
             Kelajakni birgalikda quramiz
           </h1>
           <p className="mt-2.5 font-sans text-sm sm:text-base text-on-surface-variant max-w-md">
-            O&apos;zingizga ma&apos;qul kelgan yo&apos;nalishni tanlang va ro&apos;yxatdan o&apos;ting. Biznesingizni biz bilan boshlang!
+            Yoshlar tadbirkorligini rivojlantirish jamg&apos;armasi (YTRJ) tomonidan tashkil etilgan loyihalardan birini tanlang va o&apos;z qiziqishingizni bildiring. Biznesingizni biz bilan boshlang!
           </p>
         </motion.div>
 

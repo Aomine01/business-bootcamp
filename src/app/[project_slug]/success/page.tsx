@@ -84,7 +84,7 @@ export default function SuccessPage() {
         </h1>
         
         <p className="font-sans text-sm text-on-surface-variant leading-relaxed mb-6">
-          Siz <span className="font-bold text-primary">{projectName}</span> loyihasi bo&apos;yicha ro&apos;yxatdan o&apos;tdingiz.
+          Biz sizning <span className="font-bold text-primary">{projectName}</span> loyihasiga bo&apos;lgan qiziqishingizni qabul qildik.
         </p>
 
         {/* Details card */}
