@@ -14,7 +14,20 @@ const projectSlugMap: Record<string, string> = {
   'yoshlar-tadbirkorligini-rivojlantirish-jamgarmasi': "Yoshlar Tadbirkorligini rivojlantirish jamg'armasi",
   'yoshlar-biznes-maktabi': "Yoshlar biznes maktabi",
   'komak': "Ko'mak",
-  'yosh-avlod-tadbirkorlari': "Yosh avlod Tadbirkorlari",
+  'yosh-avlod-tadbirkorlari': "Yangi avlod tadbirkorlari",
+  'yangi-avlod-tadbirkorlari': "Yangi avlod tadbirkorlari",
+  'yosh-tadbirkorlar-chempionati': "Yosh tadbirkorlar chempionati",
+  'qizlar-biznes-akademiyasi': "Qizlar biznes akademiyasi",
+};
+
+const projectLogoMap: Record<string, string> = {
+  'yoshlar-tadbirkorligini-rivojlantirish-jamgarmasi': "/ytrj.png",
+  'yoshlar-biznes-maktabi': "/YBM logo-03.png",
+  'komak': "/komak.svg",
+  'yosh-avlod-tadbirkorlari': "/yangi avlod tadbirkorlari.png",
+  'yangi-avlod-tadbirkorlari': "/yangi avlod tadbirkorlari.png",
+  'yosh-tadbirkorlar-chempionati': "/yosh tadbirkorlar chempionati.png",
+  'qizlar-biznes-akademiyasi': "/qizlar_biznes_akademiyasi_logo.jpg",
 };
 
 const validationSchema = z.object({
@@ -33,6 +46,7 @@ export default function RegistrationForm() {
 
   const slug = params.project_slug as string;
   const projectName = projectSlugMap[slug] || "Business Bootcamp Loyihasi";
+  const projectLogo = projectLogoMap[slug];
 
   const {
     register,
@@ -90,13 +104,20 @@ export default function RegistrationForm() {
             Bosh Sahifaga
           </button>
           
-          <div className="border-l-4 border-secondary pl-3 py-1">
-            <span className="text-[10px] font-inter font-extrabold uppercase tracking-widest text-secondary">
-              RO&apos;YXATDAN O&apos;TISH
-            </span>
-            <h1 className="font-montserrat text-xl sm:text-2xl font-extrabold text-primary tracking-tight leading-snug">
-              {projectName}
-            </h1>
+          <div className="flex items-center space-x-4">
+            {projectLogo && (
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white border border-outline-variant/30 overflow-hidden shadow-sm flex-shrink-0">
+                <img src={projectLogo} alt={projectName} className="h-full w-full object-contain p-1.5" />
+              </div>
+            )}
+            <div className="border-l-4 border-secondary pl-3 py-1">
+              <span className="text-[10px] font-inter font-extrabold uppercase tracking-widest text-secondary">
+                RO&apos;YXATDAN O&apos;TISH
+              </span>
+              <h1 className="font-montserrat text-lg sm:text-xl font-extrabold text-primary tracking-tight leading-snug">
+                {projectName}
+              </h1>
+            </div>
           </div>
         </div>
 
@@ -112,7 +133,7 @@ export default function RegistrationForm() {
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-5">
             
             <TextInput
-              label="Ismingiz (First Name)"
+              label="Ismingiz"
               placeholder="Ismingizni kiriting"
               error={errors.firstName?.message}
               {...register('firstName')}
@@ -120,7 +141,7 @@ export default function RegistrationForm() {
             />
 
             <TextInput
-              label="Familiyangiz (Surname)"
+              label="Familiyangiz"
               placeholder="Familiyangizni kiriting"
               error={errors.surname?.message}
               {...register('surname')}

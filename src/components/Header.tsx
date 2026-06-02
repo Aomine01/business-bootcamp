@@ -11,7 +11,7 @@ export default function Header() {
           {/* Logo Section */}
           <Link href="/" className="flex items-center group">
             <span className="font-montserrat text-sm font-extrabold tracking-tight text-primary leading-none">
-              BUSINESS BOOTCAMP
+              BIZNES BOOTCAMP 2026
             </span>
           </Link>
         </div>

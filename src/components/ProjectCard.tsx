@@ -9,16 +9,9 @@ export interface ProjectCardProps {
   title: string;
   description: string;
   slug: string;
-  accentColor: 'blue' | 'green' | 'teal' | 'gold';
-  iconName: 'fund' | 'school' | 'komak' | 'generation';
+  accentColor: 'blue' | 'green' | 'teal' | 'gold' | 'purple' | 'pink';
+  logoUrl: string;
 }
-
-const iconMap = {
-  fund: Briefcase,
-  school: GraduationCap,
-  komak: HeartHandshake,
-  generation: Rocket,
-};
 
 const colorStyles = {
   blue: {
@@ -49,55 +42,62 @@ const colorStyles = {
     accentText: 'text-amber-600',
     gradient: 'from-tertiary/10 to-transparent',
   },
+  purple: {
+    bg: 'bg-purple-600/5',
+    border: 'border-purple-600/10 hover:border-purple-600/30',
+    iconBg: 'bg-purple-600 text-white',
+    accentText: 'text-purple-700',
+    gradient: 'from-purple-600/10 to-transparent',
+  },
+  pink: {
+    bg: 'bg-pink-600/5',
+    border: 'border-pink-600/10 hover:border-pink-600/30',
+    iconBg: 'bg-pink-600 text-white',
+    accentText: 'text-pink-700',
+    gradient: 'from-pink-600/10 to-transparent',
+  },
 };
 
-export default function ProjectCard({ title, description, slug, accentColor, iconName }: ProjectCardProps) {
-  const Icon = iconMap[iconName];
+export default function ProjectCard({ title, description, slug, accentColor, logoUrl }: ProjectCardProps) {
   const styles = colorStyles[accentColor];
 
   return (
-    <Link href={`/${slug}`} className="block w-full">
+    <Link href={`/${slug}`} className="block w-full h-full">
       <motion.div
-        whileHover={{ scale: 1.02, y: -2 }}
+        whileHover={{ scale: 1.03, y: -4 }}
         whileTap={{ scale: 0.98 }}
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className={`relative overflow-hidden rounded-[24px] border ${styles.border} bg-white p-6 shadow-ambient hover:shadow-ambient-lg transition-all duration-300 flex flex-col justify-between h-full min-h-[180px]`}
+        className={`relative overflow-hidden rounded-[24px] border ${styles.border} bg-white p-5 shadow-ambient hover:shadow-ambient-lg transition-all duration-300 flex flex-col justify-between h-full min-h-[260px] group`}
       >
         {/* Color Gradient Overlay for background touch */}
         <div className={`absolute top-0 right-0 h-32 w-32 bg-gradient-to-bl ${styles.gradient} rounded-bl-full opacity-40 pointer-events-none`} />
 
-        <div>
-          {/* Card Header: Icon & Category */}
-          <div className="flex items-center space-x-3 mb-4">
-            <div className={`flex h-12 w-12 items-center justify-center rounded-2xl shadow-sm ${styles.iconBg}`}>
-              <Icon size={24} />
-            </div>
-            <span className={`text-[11px] font-inter font-extrabold uppercase tracking-widest ${styles.accentText}`}>
-              BOOTCAMP 2026 PROJECT
-            </span>
-          </div>
-
-          {/* Title & Description */}
-          <h3 className="font-montserrat text-lg font-bold text-primary tracking-tight leading-snug mb-2">
-            {title}
-          </h3>
-          <p className="font-sans text-sm text-on-surface-variant leading-relaxed mb-6">
-            {description}
-          </p>
+        {/* Full Size Logo Container */}
+        <div className="flex-grow flex items-center justify-center min-h-[160px] mb-4 bg-surface-low/40 rounded-2xl p-4 transition-colors duration-300 group-hover:bg-white border border-outline-variant/10">
+          <img 
+            src={logoUrl} 
+            alt={title} 
+            className="max-h-[120px] max-w-full object-contain filter drop-shadow-sm transition-transform duration-300 group-hover:scale-105" 
+          />
         </div>
 
-        {/* Action Button */}
-        <div className="flex items-center text-sm font-inter font-bold text-primary group mt-auto">
-          <span>Learn More & Register</span>
-          <motion.span 
-            className="ml-1.5 transition-transform"
-            animate={{ x: [0, 4, 0] }}
-            transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
-          >
-            <ArrowRight size={16} className="text-secondary" />
-          </motion.span>
+        {/* Project Name and Action */}
+        <div className="flex flex-col space-y-1 pt-1">
+          <h3 className="font-montserrat text-sm font-bold text-primary tracking-tight leading-snug truncate">
+            {title}
+          </h3>
+          <div className="flex items-center text-[11px] font-inter font-bold text-secondary group-hover:text-primary transition-colors">
+            <span>Batafsil va ro&apos;yxatdan o&apos;tish</span>
+            <motion.span 
+              className="ml-1.5 transition-transform"
+              animate={{ x: [0, 4, 0] }}
+              transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+            >
+              <ArrowRight size={12} />
+            </motion.span>
+          </div>
         </div>
       </motion.div>
     </Link>

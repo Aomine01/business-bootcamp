@@ -100,7 +100,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
           </span>
         ) : (
           <span className="text-[10px] font-sans text-on-surface-variant/65">
-            Enter your 9-digit mobile operator number.
+            9 xonali mobil operator raqamingizni kiriting.
           </span>
         )}
       </div>

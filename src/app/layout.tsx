@@ -3,9 +3,9 @@ import './globals.css';
 import Header from '@/components/Header';
 
 export const metadata: Metadata = {
-  title: 'Business Bootcamp 2026 - Portal',
-  description: 'Select a youth entrepreneurship project and register your interest for the Business Bootcamp (2026) in Uzbekistan.',
-  keywords: ['Business Bootcamp', 'Bootcamp 2026', 'Uzbekistan', 'Youth Entrepreneurship'],
+  title: 'Biznes Bootcamp 2026 - Portal',
+  description: 'Yoshlar tadbirkorlik loyihasini tanlang va O\'zbekistondagi Biznes Bootcamp 2026 dasturiga ro\'yxatdan o\'ting.',
+  keywords: ['Biznes Bootcamp', 'Bootcamp 2026', 'O\'zbekiston', 'Yoshlar tadbirkorligi'],
 };
 
 export const viewport: Viewport = {
@@ -32,8 +32,8 @@ export default function RootLayout({
         {/* Event Footer */}
         <footer className="w-full py-6 mt-12 bg-primary text-white/60 text-center font-sans text-xs border-t border-white/5">
           <div className="mx-auto max-w-7xl px-4">
-            <p className="font-semibold tracking-wider text-white/80">BUSINESS BOOTCAMP 2026</p>
-            <p className="mt-2 text-[10px] text-white/40">© {new Date().getFullYear()} Business Bootcamp Uzbekistan. All rights reserved.</p>
+            <p className="font-semibold tracking-wider text-white/80">BIZNES BOOTCAMP 2026</p>
+            <p className="mt-2 text-[10px] text-white/40">© {new Date().getFullYear()} Biznes Bootcamp O&apos;zbekiston. Barcha huquqlar himoyalangan.</p>
           </div>
         </footer>
       </body>

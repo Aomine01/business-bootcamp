@@ -22,6 +22,15 @@ export interface RegistrationData {
   interest_reason: string;
 }
 
+const projectTableMap: Record<string, string> = {
+  "Yoshlar Tadbirkorligini rivojlantirish jamg'armasi": "reg_ytrj",
+  "Yoshlar biznes maktabi": "reg_ybm",
+  "Ko'mak": "reg_komak",
+  "Yangi avlod tadbirkorlari": "reg_yangi_avlod_tadbirkorlari",
+  "Yosh tadbirkorlar chempionati": "reg_yosh_tadbirkorlar_chempionati",
+  "Qizlar biznes akademiyasi": "reg_qizlar_biznes_akademiyasi",
+};
+
 /**
  * Saves a registration to the database (or localStorage if in mock mode)
  */
@@ -51,16 +60,38 @@ export async function submitRegistration(data: RegistrationData): Promise<{ succ
     }
   } else {
     try {
-      const { error } = await supabase!
+      // 1. Insert into unified table
+      const { error: unifiedError } = await supabase!
         .from('bootcamp_registrations')
         .insert([data]);
         
-      if (error) {
-        console.error('❌ Bootcamp Portal: Supabase insertion error:', error);
-        return { success: false, error: error.message };
+      if (unifiedError) {
+        console.error('❌ Bootcamp Portal: Unified insertion error:', unifiedError);
+        return { success: false, error: `Unified table error: ${unifiedError.message}` };
       }
       
-      console.log('✅ Bootcamp Portal: Submission successfully saved to Supabase!');
+      // 2. Insert into project-specific table
+      const specificTableName = projectTableMap[data.project_name];
+      if (specificTableName) {
+        const { error: specificError } = await supabase!
+          .from(specificTableName)
+          .insert([{
+            first_name: data.first_name,
+            surname: data.surname,
+            phone_number: data.phone_number,
+            interest_reason: data.interest_reason,
+          }]);
+          
+        if (specificError) {
+          console.error(`❌ Bootcamp Portal: Specific table (${specificTableName}) insertion error:`, specificError);
+          return { 
+            success: false, 
+            error: `Saved to unified table, but failed to save to specific table ${specificTableName}: ${specificError.message}` 
+          };
+        }
+      }
+      
+      console.log('✅ Bootcamp Portal: Submission successfully saved to both tables in Supabase!');
       return { success: true };
     } catch (e: any) {
       console.error('❌ Bootcamp Portal: Unexpected submission error:', e);

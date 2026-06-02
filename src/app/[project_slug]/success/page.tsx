@@ -9,7 +9,20 @@ const projectSlugMap: Record<string, string> = {
   'yoshlar-tadbirkorligini-rivojlantirish-jamgarmasi': "Yoshlar Tadbirkorligini rivojlantirish jamg'armasi",
   'yoshlar-biznes-maktabi': "Yoshlar biznes maktabi",
   'komak': "Ko'mak",
-  'yosh-avlod-tadbirkorlari': "Yosh avlod Tadbirkorlari",
+  'yosh-avlod-tadbirkorlari': "Yangi avlod tadbirkorlari",
+  'yangi-avlod-tadbirkorlari': "Yangi avlod tadbirkorlari",
+  'yosh-tadbirkorlar-chempionati': "Yosh tadbirkorlar chempionati",
+  'qizlar-biznes-akademiyasi': "Qizlar biznes akademiyasi",
+};
+
+const projectLogoMap: Record<string, string> = {
+  'yoshlar-tadbirkorligini-rivojlantirish-jamgarmasi': "/ytrj.png",
+  'yoshlar-biznes-maktabi': "/YBM logo-03.png",
+  'komak': "/komak.svg",
+  'yosh-avlod-tadbirkorlari': "/yangi avlod tadbirkorlari.png",
+  'yangi-avlod-tadbirkorlari': "/yangi avlod tadbirkorlari.png",
+  'yosh-tadbirkorlar-chempionati': "/yosh tadbirkorlar chempionati.png",
+  'qizlar-biznes-akademiyasi': "/qizlar_biznes_akademiyasi_logo.jpg",
 };
 
 export default function SuccessPage() {
@@ -18,6 +31,7 @@ export default function SuccessPage() {
 
   const slug = params.project_slug as string;
   const projectName = projectSlugMap[slug] || "Bootcamp Loyihasi";
+  const projectLogo = projectLogoMap[slug];
 
   return (
     <div className="w-full flex-grow flex flex-col justify-center items-center bg-background px-4 py-8">
@@ -34,22 +48,34 @@ export default function SuccessPage() {
         {/* Glow accent */}
         <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-secondary to-secondary-container" />
 
-        {/* Animated Checkmark Circle */}
+        {/* Animated Project Logo & Checkmark Badge */}
         <div className="flex justify-center mb-6">
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: 'spring', delay: 0.2, damping: 12, stiffness: 150 }}
-            className="flex h-20 w-20 items-center justify-center rounded-full bg-secondary-container/20 text-secondary border border-secondary/20 shadow-inner"
-          >
+          <div className="relative">
             <motion.div
-              initial={{ rotate: -45, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              transition={{ delay: 0.4 }}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', delay: 0.2, damping: 12, stiffness: 150 }}
+              className="flex h-24 w-24 items-center justify-center rounded-2xl bg-white border border-outline-variant/30 overflow-hidden shadow-ambient"
             >
-              <Check size={40} className="stroke-[3]" />
+              {projectLogo ? (
+                <img src={projectLogo} alt={projectName} className="h-full w-full object-contain p-2" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-secondary-container/20 text-secondary">
+                  <Check size={40} className="stroke-[3]" />
+                </div>
+              )}
             </motion.div>
-          </motion.div>
+            {projectLogo && (
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', delay: 0.5, damping: 10, stiffness: 120 }}
+                className="absolute -bottom-2 -right-2 flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-white border-2 border-white shadow-md"
+              >
+                <Check size={16} className="stroke-[3]" />
+              </motion.div>
+            )}
+          </div>
         </div>
 
         {/* Success Headlines */}

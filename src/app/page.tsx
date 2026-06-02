@@ -10,28 +10,42 @@ const projects = [
     description: "Moliyaviy ko'mak, imtiyozli kreditlar va yosh tadbirkorlarning startap loyihalarini qo'llab-quvvatlash jamg'armasi.",
     slug: "yoshlar-tadbirkorligini-rivojlantirish-jamgarmasi",
     accentColor: "blue" as const,
-    iconName: "fund" as const,
+    logoUrl: "/ytrj.png",
   },
   {
     title: "Yoshlar biznes maktabi",
     description: "Tadbirkorlik asoslari, biznes rejalashtirish va amaliy marketing ko'nikmalarini o'rgatishga yo'naltirilgan o'quv dasturlari.",
     slug: "yoshlar-biznes-maktabi",
     accentColor: "green" as const,
-    iconName: "school" as const,
+    logoUrl: "/YBM logo-03.png",
   },
   {
     title: "Ko'mak",
     description: "Biznes yuritishdagi muammolarni hal qilish, huquqiy va amaliy maslahatlar olish uchun yordam platformasi.",
     slug: "komak",
     accentColor: "teal" as const,
-    iconName: "komak" as const,
+    logoUrl: "/komak.svg",
   },
   {
-    title: "Yosh avlod Tadbirkorlari",
+    title: "Yangi avlod tadbirkorlari",
     description: "Yangi avlod innovatorlari va startapchilarni birlashtiruvchi hamjamiyat va hamkorlik ekotizimi.",
-    slug: "yosh-avlod-tadbirkorlari",
+    slug: "yangi-avlod-tadbirkorlari",
     accentColor: "gold" as const,
-    iconName: "generation" as const,
+    logoUrl: "/yangi avlod tadbirkorlari.png",
+  },
+  {
+    title: "Yosh tadbirkorlar chempionati",
+    description: "Eng yaxshi biznes loyihalar va startaplar o'rtasida o'tkaziladigan respublika tanlovi hamda amaliy tanlov loyihasi.",
+    slug: "yosh-tadbirkorlar-chempionati",
+    accentColor: "purple" as const,
+    logoUrl: "/yosh tadbirkorlar chempionati.png",
+  },
+  {
+    title: "Qizlar biznes akademiyasi",
+    description: "Xotin-qizlar tadbirkorligini rivojlantirish, ularga biznes va yetakchilik ko'nikmalarini o'rgatish bo'yicha maxsus akademiya.",
+    slug: "qizlar-biznes-akademiyasi",
+    accentColor: "pink" as const,
+    logoUrl: "/qizlar_biznes_akademiyasi_logo.jpg",
   },
 ];
 
@@ -53,7 +67,7 @@ export default function Home() {
           className="text-center flex flex-col items-center"
         >
           <h1 className="font-montserrat text-3xl sm:text-4xl font-extrabold text-primary tracking-tight leading-tight">
-            Building the Future
+            Kelajakni birgalikda quramiz
           </h1>
           <p className="mt-2.5 font-sans text-sm sm:text-base text-on-surface-variant max-w-md">
             O&apos;zingizga ma&apos;qul kelgan yo&apos;nalishni tanlang va ro&apos;yxatdan o&apos;ting. Biznesingizni biz bilan boshlang!
@@ -67,7 +81,7 @@ export default function Home() {
               Mavjud Yo&apos;nalishlar
             </span>
             <span className="font-sans text-[11px] text-on-surface-variant/70">
-              4 ta faol loyiha
+              6 ta faol loyiha
             </span>
           </div>
 
@@ -79,13 +93,14 @@ export default function Home() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: idx * 0.1 }}
+                className="h-full"
               >
                 <ProjectCard
                   title={proj.title}
                   description={proj.description}
                   slug={proj.slug}
                   accentColor={proj.accentColor}
-                  iconName={proj.iconName}
+                  logoUrl={proj.logoUrl}
                 />
               </motion.div>
             ))}
@@ -100,7 +115,7 @@ export default function Home() {
           className="rounded-2xl glassmorphism-accent p-4 text-center border border-outline-variant/30"
         >
           <p className="font-sans text-xs text-on-surface-variant/80">
-            Scanning this QR code gives you fast track admission to one-on-one consulting during the bootcamp session.
+            Ushbu QR-kodni skanerlash sizga bootcamp mashg&apos;ulotlari davomida yakka tartibdagi konsultatsiyalarga tezkor kirish imkonini beradi.
           </p>
         </motion.div>
         
