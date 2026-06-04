@@ -18,7 +18,7 @@ export default function Header() {
               <img
                 src="/ytrjnavbarsvg.svg"
                 alt="YTRJ logo"
-                className="h-16 sm:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                className="h-32 sm:h-40 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
               />
             </a>
             <div className="w-[1px] sm:w-[1.5px] h-12 sm:h-14 bg-primary/15" />
