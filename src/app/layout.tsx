@@ -34,7 +34,16 @@ export default function RootLayout({
           <div className="mx-auto max-w-7xl px-4 flex flex-col items-center gap-1.5">
             <p className="font-semibold tracking-wider text-white/80">YOSHLAR TADBIRKORLIGINI RIVOJLANTIRISH JAMG&apos;ARMASI</p>
             <p className="text-[10px] text-white/40">© {new Date().getFullYear()} YTRJ. Barcha huquqlar himoyalangan.</p>
-            <p className="mt-1">
+            <p className="mt-1 flex flex-wrap justify-center items-center gap-x-3 gap-y-1">
+              <a
+                href="https://yoshlarfondi.uz"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-secondary-fixed hover:text-secondary-fixed-dim transition-colors font-bold underline decoration-secondary/30 underline-offset-4"
+              >
+                yoshlarfondi.uz
+              </a>
+              <span className="text-white/20">•</span>
               <a
                 href="https://yoshlar.gov.uz/marathon"
                 target="_blank"
