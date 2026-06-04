@@ -14,7 +14,7 @@ export const TextInput = forwardRef<HTMLInputElement, InputProps>(
         </label>
         <input
           ref={ref}
-          className={`w-full rounded-[8px] bg-white border border-outline-variant/60 px-4 py-3 text-on-surface font-sans text-sm outline-none transition-all duration-200 focus:border-primary-container focus:ring-2 focus:ring-primary/5 placeholder:text-on-surface-variant/40 ${
+          className={`w-full rounded-[8px] bg-white border border-outline-variant/60 px-4 py-3 text-on-surface font-sans text-base sm:text-sm outline-none transition-all duration-200 focus:border-primary-container focus:ring-2 focus:ring-primary/5 placeholder:text-on-surface-variant/40 ${
             error ? 'border-error focus:border-error focus:ring-error/5' : ''
           } ${className}`}
           {...props}
@@ -87,7 +87,7 @@ export const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
             value={formatDisplay(value)}
             onChange={handleInput}
             placeholder="(90) 123-45-67"
-            className={`w-full rounded-[8px] bg-white border border-outline-variant/60 pl-20 pr-4 py-3 text-on-surface font-sans text-sm font-semibold outline-none transition-all duration-200 focus:border-primary-container focus:ring-2 focus:ring-primary/5 placeholder:text-on-surface-variant/30 ${
+            className={`w-full rounded-[8px] bg-white border border-outline-variant/60 pl-20 pr-4 py-3 text-on-surface font-sans text-base sm:text-sm font-semibold outline-none transition-all duration-200 focus:border-primary-container focus:ring-2 focus:ring-primary/5 placeholder:text-on-surface-variant/30 ${
               error ? 'border-error focus:border-error focus:ring-error/5' : ''
             } ${className}`}
             {...props}
@@ -123,7 +123,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         </label>
         <textarea
           ref={ref}
-          className={`w-full rounded-[8px] bg-white border border-outline-variant/60 px-4 py-3 text-on-surface font-sans text-sm outline-none transition-all duration-200 focus:border-primary-container focus:ring-2 focus:ring-primary/5 placeholder:text-on-surface-variant/40 resize-none min-h-[120px] ${
+          className={`w-full rounded-[8px] bg-white border border-outline-variant/60 px-4 py-3 text-on-surface font-sans text-base sm:text-sm outline-none transition-all duration-200 focus:border-primary-container focus:ring-2 focus:ring-primary/5 placeholder:text-on-surface-variant/40 resize-none min-h-[120px] ${
             error ? 'border-error focus:border-error focus:ring-error/5' : ''
           } ${className}`}
           {...props}
