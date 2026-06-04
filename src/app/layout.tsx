@@ -31,9 +31,19 @@ export default function RootLayout({
         
         {/* Event Footer */}
         <footer className="w-full py-6 mt-12 bg-primary text-white/60 text-center font-sans text-xs border-t border-white/5">
-          <div className="mx-auto max-w-7xl px-4">
-            <p className="font-semibold tracking-wider text-white/80">BIZNES BOOTCAMP 2026</p>
-            <p className="mt-2 text-[10px] text-white/40">© {new Date().getFullYear()} Biznes Bootcamp O&apos;zbekiston. Barcha huquqlar himoyalangan.</p>
+          <div className="mx-auto max-w-7xl px-4 flex flex-col items-center gap-1.5">
+            <p className="font-semibold tracking-wider text-white/80">YOSHLAR TADBIRKORLIGINI RIVOJLANTIRISH JAMG&apos;ARMASI</p>
+            <p className="text-[10px] text-white/40">© {new Date().getFullYear()} YTRJ. Barcha huquqlar himoyalangan.</p>
+            <p className="mt-1">
+              <a
+                href="https://yoshlar.gov.uz/marathon"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-secondary-fixed hover:text-secondary-fixed-dim transition-colors font-bold underline decoration-secondary/30 underline-offset-4"
+              >
+                yoshlar.gov.uz/marathon
+              </a>
+            </p>
           </div>
         </footer>
       </body>

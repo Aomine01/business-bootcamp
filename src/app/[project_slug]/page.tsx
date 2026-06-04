@@ -21,9 +21,9 @@ const projectSlugMap: Record<string, string> = {
 };
 
 const projectLogoMap: Record<string, string> = {
-  'yoshlar-tadbirkorligini-rivojlantirish-jamgarmasi': "/ytrj.png",
+  'yoshlar-tadbirkorligini-rivojlantirish-jamgarmasi': "/ytrj headr.png",
   'yoshlar-biznes-maktabi': "/YBM logo-03.png",
-  'komak': "/komak.svg",
+  'komak': "/komaknew.png",
   'yosh-avlod-tadbirkorlari': "/yangi avlod tadbirkorlari.png",
   'yangi-avlod-tadbirkorlari': "/yangi avlod tadbirkorlari.png",
   'yosh-tadbirkorlar-chempionati': "/yosh tadbirkorlar chempionati.png",
@@ -106,8 +106,8 @@ export default function RegistrationForm() {
           
           <div className="flex items-center space-x-4">
             {projectLogo && (
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white border border-outline-variant/30 overflow-hidden shadow-sm flex-shrink-0">
-                <img src={projectLogo} alt={projectName} className="h-full w-full object-contain p-1.5" />
+              <div className={`flex h-16 ${slug === 'yoshlar-tadbirkorligini-rivojlantirish-jamgarmasi' ? 'w-36 px-2.5' : 'w-16 p-1.5'} items-center justify-center rounded-2xl bg-white border border-outline-variant/30 overflow-hidden shadow-sm flex-shrink-0`}>
+                <img src={projectLogo} alt={projectName} className="h-full w-full object-contain" />
               </div>
             )}
             <div className="border-l-4 border-secondary pl-3 py-1">

@@ -16,9 +16,9 @@ const projectSlugMap: Record<string, string> = {
 };
 
 const projectLogoMap: Record<string, string> = {
-  'yoshlar-tadbirkorligini-rivojlantirish-jamgarmasi': "/ytrj.png",
+  'yoshlar-tadbirkorligini-rivojlantirish-jamgarmasi': "/ytrj headr.png",
   'yoshlar-biznes-maktabi': "/YBM logo-03.png",
-  'komak': "/komak.svg",
+  'komak': "/komaknew.png",
   'yosh-avlod-tadbirkorlari': "/yangi avlod tadbirkorlari.png",
   'yangi-avlod-tadbirkorlari': "/yangi avlod tadbirkorlari.png",
   'yosh-tadbirkorlar-chempionati': "/yosh tadbirkorlar chempionati.png",
@@ -55,10 +55,10 @@ export default function SuccessPage() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', delay: 0.2, damping: 12, stiffness: 150 }}
-              className="flex h-24 w-24 items-center justify-center rounded-2xl bg-white border border-outline-variant/30 overflow-hidden shadow-ambient"
+              className={`flex h-24 ${slug === 'yoshlar-tadbirkorligini-rivojlantirish-jamgarmasi' ? 'w-52 px-3' : 'w-24 p-2'} items-center justify-center rounded-2xl bg-white border border-outline-variant/30 overflow-hidden shadow-ambient`}
             >
               {projectLogo ? (
-                <img src={projectLogo} alt={projectName} className="h-full w-full object-contain p-2" />
+                <img src={projectLogo} alt={projectName} className="h-full w-full object-contain" />
               ) : (
                 <div className="flex h-full w-full items-center justify-center bg-secondary-container/20 text-secondary">
                   <Check size={40} className="stroke-[3]" />

@@ -60,6 +60,7 @@ const colorStyles = {
 
 export default function ProjectCard({ title, description, slug, accentColor, logoUrl }: ProjectCardProps) {
   const styles = colorStyles[accentColor];
+  const isYtrj = logoUrl.includes('ytrj');
 
   return (
     <Link href={`/${slug}`} className="block w-full h-full">
@@ -79,7 +80,7 @@ export default function ProjectCard({ title, description, slug, accentColor, log
           <img 
             src={logoUrl} 
             alt={title} 
-            className="max-h-[120px] max-w-full object-contain filter drop-shadow-sm transition-transform duration-300 group-hover:scale-105" 
+            className={`${isYtrj ? 'max-h-[130px] scale-135' : 'max-h-[120px]'} max-w-full object-contain filter drop-shadow-sm transition-transform duration-300 ${isYtrj ? 'group-hover:scale-[1.4]' : 'group-hover:scale-105'}`} 
           />
         </div>
 

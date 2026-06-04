@@ -12,7 +12,7 @@ const projects = [
     description: "Moliyaviy ko'mak, imtiyozli kreditlar va yosh tadbirkorlarning startap loyihalarini qo'llab-quvvatlash jamg'armasi.",
     slug: "yoshlar-tadbirkorligini-rivojlantirish-jamgarmasi",
     accentColor: "blue" as const,
-    logoUrl: "/ytrj.png",
+    logoUrl: "/ytrj headr.png",
   },
   {
     title: "Yoshlar biznes maktabi",
@@ -26,7 +26,7 @@ const projects = [
     description: "Biznes yuritishdagi muammolarni hal qilish, huquqiy va amaliy maslahatlar olish uchun yordam platformasi.",
     slug: "komak",
     accentColor: "teal" as const,
-    logoUrl: "/komak.svg",
+    logoUrl: "/komaknew.png",
   },
   {
     title: "Yangi avlod tadbirkorlari",
