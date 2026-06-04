@@ -16,9 +16,9 @@ export default function Header() {
               className="flex items-center group"
             >
               <img
-                src="/ytrj headr.png"
+                src="/ytrjnavbarsvg.svg"
                 alt="YTRJ logo"
-                className="h-40 sm:h-48 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                className="h-16 sm:h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
               />
             </a>
             <div className="w-[1px] sm:w-[1.5px] h-12 sm:h-14 bg-primary/15" />
