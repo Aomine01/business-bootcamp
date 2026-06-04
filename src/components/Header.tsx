@@ -18,7 +18,7 @@ export default function Header() {
               <img
                 src="/ytrj headr.png"
                 alt="YTRJ logo"
-                className="h-20 sm:h-24 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                className="h-40 sm:h-48 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
               />
             </a>
             <div className="w-[1px] sm:w-[1.5px] h-12 sm:h-14 bg-primary/15" />
