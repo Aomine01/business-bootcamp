@@ -79,7 +79,7 @@ export default function BuxoroNavoiySurvey() {
   // Validate step before advancing
   const nextStep = async () => {
     let fieldsToValidate: Array<keyof SurveyFormValues> = [];
-    
+
     if (step === 1) {
       fieldsToValidate = ['location'];
     } else if (step === 2) {
@@ -115,7 +115,7 @@ export default function BuxoroNavoiySurvey() {
     }
     setSubmitError(null);
     const fullPhoneNumber = `+998${values.phoneNumber}`;
-    
+
     const payload = {
       first_name: values.firstName,
       surname: values.surname,
@@ -171,7 +171,7 @@ export default function BuxoroNavoiySurvey() {
       <div className="absolute top-[50%] right-[-10%] w-80 h-80 rounded-full bg-secondary-container/10 blur-3xl pointer-events-none" />
 
       <div className="w-full max-w-lg flex flex-col space-y-6 z-10">
-        
+
         {/* Navigation & Header */}
         <div className="flex flex-col space-y-3">
           <button
@@ -181,7 +181,7 @@ export default function BuxoroNavoiySurvey() {
             <ChevronLeft size={16} className="mr-1 text-secondary" />
             Bosh Sahifaga
           </button>
-          
+
           <div className="border-l-4 border-secondary pl-3 py-1">
             <span className="text-[10px] font-inter font-extrabold uppercase tracking-widest text-secondary">
               MAXSUS SO&apos;ROVNOMA
@@ -200,7 +200,7 @@ export default function BuxoroNavoiySurvey() {
           <div className="flex justify-between items-center relative">
             {/* Progress line */}
             <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 h-[2px] bg-surface-container" />
-            <div 
+            <div
               className="absolute left-4 top-1/2 -translate-y-1/2 h-[2px] bg-secondary transition-all duration-300"
               style={{ width: `${((step - 1) / 3) * 100}%` }}
             />
@@ -225,7 +225,7 @@ export default function BuxoroNavoiySurvey() {
                           if (i === 1) fields = ['location'];
                           else if (i === 2) fields = ['firstName', 'surname', 'phoneNumber', 'age'];
                           else if (i === 3) fields = watchedIsEntrepreneur ? ['businessActivity', 'employeeCount'] : ['businessInterest'];
-                          
+
                           const check = await trigger(fields);
                           if (!check) {
                             canJump = false;
@@ -236,13 +236,12 @@ export default function BuxoroNavoiySurvey() {
                         if (canJump) setStep(s.id);
                       }
                     }}
-                    className={`flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 border-2 font-inter text-xs font-bold ${
-                      isCurrent
+                    className={`flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 border-2 font-inter text-xs font-bold ${isCurrent
                         ? 'bg-primary border-primary text-white scale-110 shadow-md'
                         : isActive
-                        ? 'bg-secondary border-secondary text-white'
-                        : 'bg-white border-outline-variant text-on-surface-variant'
-                    }`}
+                          ? 'bg-secondary border-secondary text-white'
+                          : 'bg-white border-outline-variant text-on-surface-variant'
+                      }`}
                   >
                     {isActive && step > s.id ? <Check size={14} strokeWidth={3} /> : <Icon size={14} />}
                   </button>
@@ -257,15 +256,15 @@ export default function BuxoroNavoiySurvey() {
 
         {/* Form Container Card */}
         <div className="bg-white rounded-[24px] border border-outline-variant/50 p-4 sm:p-6 shadow-ambient-lg min-h-[400px] flex flex-col justify-between overflow-hidden relative">
-          
+
           {submitError && (
             <div className="mb-5 p-3.5 rounded-[8px] bg-error-container text-on-error-container border border-error/20 text-xs font-sans font-medium flex items-center">
               <span className="mr-2 text-sm">⚠️</span> {submitError}
             </div>
           )}
 
-          <form 
-            onSubmit={handleSubmit(onSubmit)} 
+          <form
+            onSubmit={handleSubmit(onSubmit)}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && (e.target as HTMLElement).tagName !== 'TEXTAREA') {
                 e.preventDefault();
@@ -295,15 +294,14 @@ export default function BuxoroNavoiySurvey() {
                       <button
                         type="button"
                         onClick={() => setValue('location', 'Buxoro', { shouldValidate: true })}
-                        className={`flex flex-col text-left p-3.5 sm:p-5 rounded-2xl border-2 transition-all duration-300 relative overflow-hidden group cursor-pointer ${
-                          watchedLocation === 'Buxoro'
+                        className={`flex flex-col text-left p-3.5 sm:p-5 rounded-2xl border-2 transition-all duration-300 relative overflow-hidden group cursor-pointer ${watchedLocation === 'Buxoro'
                             ? 'border-secondary bg-secondary/5 ring-4 ring-secondary/5 shadow-md'
                             : 'border-outline-variant/50 hover:border-primary/40 bg-white hover:bg-surface-low'
-                        }`}
+                          }`}
                       >
                         {/* Colorful Side Ribbon (Buxoro Colors) */}
                         <div className="absolute left-0 top-0 bottom-0 w-2.5 bg-secondary" />
-                        
+
                         <div className="pl-3">
                           <div className="flex justify-between items-start">
                             <span className="text-[10px] sm:text-xs font-inter font-extrabold tracking-wider text-secondary uppercase bg-secondary/10 px-2 py-0.5 rounded-full">
@@ -315,7 +313,7 @@ export default function BuxoroNavoiySurvey() {
                               </div>
                             )}
                           </div>
-                          
+
                           <h3 className="font-montserrat text-base sm:text-lg font-extrabold text-primary mt-2">
                             BUXORO VILOYATI
                           </h3>
@@ -332,19 +330,18 @@ export default function BuxoroNavoiySurvey() {
                       <button
                         type="button"
                         onClick={() => setValue('location', 'Navoiy', { shouldValidate: true })}
-                        className={`flex flex-col text-left p-3.5 sm:p-5 rounded-2xl border-2 transition-all duration-300 relative overflow-hidden group cursor-pointer ${
-                          watchedLocation === 'Navoiy'
+                        className={`flex flex-col text-left p-3.5 sm:p-5 rounded-2xl border-2 transition-all duration-300 relative overflow-hidden group cursor-pointer ${watchedLocation === 'Navoiy'
                             ? 'border-primary bg-primary/5 ring-4 ring-primary/5 shadow-md'
                             : 'border-outline-variant/50 hover:border-primary/40 bg-white hover:bg-surface-low'
-                        }`}
+                          }`}
                       >
                         {/* Colorful Side Ribbon (Navoiy Colors) */}
                         <div className="absolute left-0 top-0 bottom-0 w-2.5 bg-tertiary" />
-                        
+
                         <div className="pl-3">
                           <div className="flex justify-between items-start">
                             <span className="text-[10px] sm:text-xs font-inter font-extrabold tracking-wider text-tertiary-container bg-tertiary/20 px-2 py-0.5 rounded-full uppercase">
-                              9-IYUN, 2026
+                              8-IYUN, 2026
                             </span>
                             {watchedLocation === 'Navoiy' && (
                               <div className="bg-primary text-white rounded-full p-0.5">
@@ -352,7 +349,7 @@ export default function BuxoroNavoiySurvey() {
                               </div>
                             )}
                           </div>
-                          
+
                           <h3 className="font-montserrat text-base sm:text-lg font-extrabold text-primary mt-2">
                             NAVOIY VILOYATI
                           </h3>
@@ -456,11 +453,10 @@ export default function BuxoroNavoiySurvey() {
                         <button
                           type="button"
                           onClick={() => setValue('isEntrepreneur', true, { shouldValidate: true })}
-                          className={`flex-1 flex items-center justify-center space-x-1.5 py-3 px-2 rounded-xl border-2 font-inter font-bold text-xs sm:text-sm transition-all duration-200 cursor-pointer ${
-                            watchedIsEntrepreneur
+                          className={`flex-1 flex items-center justify-center space-x-1.5 py-3 px-2 rounded-xl border-2 font-inter font-bold text-xs sm:text-sm transition-all duration-200 cursor-pointer ${watchedIsEntrepreneur
                               ? 'border-secondary bg-secondary/5 text-secondary shadow-sm'
                               : 'border-outline-variant/50 hover:border-primary/40 bg-white text-on-surface-variant'
-                          }`}
+                            }`}
                         >
                           <span>💼</span>
                           <span>Ha, tadbirkorman</span>
@@ -472,11 +468,10 @@ export default function BuxoroNavoiySurvey() {
                             setValue('isEntrepreneur', false, { shouldValidate: true });
                             setValue('businessActivity', '');
                           }}
-                          className={`flex-1 flex items-center justify-center space-x-1.5 py-3 px-2 rounded-xl border-2 font-inter font-bold text-xs sm:text-sm transition-all duration-200 cursor-pointer ${
-                            !watchedIsEntrepreneur
+                          className={`flex-1 flex items-center justify-center space-x-1.5 py-3 px-2 rounded-xl border-2 font-inter font-bold text-xs sm:text-sm transition-all duration-200 cursor-pointer ${!watchedIsEntrepreneur
                               ? 'border-primary bg-primary/5 text-primary shadow-sm'
                               : 'border-outline-variant/50 hover:border-primary/40 bg-white text-on-surface-variant'
-                          }`}
+                            }`}
                         >
                           <span>🎓</span>
                           <span>Yo&apos;q, emasman</span>
@@ -513,11 +508,10 @@ export default function BuxoroNavoiySurvey() {
                                   key={label}
                                   type="button"
                                   onClick={() => setValue('employeeCount', label)}
-                                  className={`py-2.5 px-2 rounded-lg border font-sans text-xs font-semibold transition-all duration-200 cursor-pointer ${
-                                    watch('employeeCount') === label
+                                  className={`py-2.5 px-2 rounded-lg border font-sans text-xs font-semibold transition-all duration-200 cursor-pointer ${watch('employeeCount') === label
                                       ? 'bg-primary border-primary text-white shadow-sm'
                                       : 'border-outline-variant/60 text-on-surface hover:bg-surface-low'
-                                  }`}
+                                    }`}
                                 >
                                   {label}
                                 </button>
@@ -541,11 +535,10 @@ export default function BuxoroNavoiySurvey() {
                               <button
                                 type="button"
                                 onClick={() => setValue('hasBusinessIdea', true)}
-                                className={`flex-1 py-2.5 px-2 rounded-lg border font-sans text-xs font-semibold transition-all duration-200 cursor-pointer ${
-                                  watchedHasBusinessIdea === true
+                                className={`flex-1 py-2.5 px-2 rounded-lg border font-sans text-xs font-semibold transition-all duration-200 cursor-pointer ${watchedHasBusinessIdea === true
                                     ? 'bg-primary border-primary text-white shadow-sm'
                                     : 'border-outline-variant/60 text-on-surface hover:bg-surface-low'
-                                }`}
+                                  }`}
                               >
                                 👍 Ha, g&apos;oyam bor
                               </button>
@@ -554,11 +547,10 @@ export default function BuxoroNavoiySurvey() {
                                 onClick={() => {
                                   setValue('hasBusinessIdea', false);
                                 }}
-                                className={`flex-1 py-2.5 px-2 rounded-lg border font-sans text-xs font-semibold transition-all duration-200 cursor-pointer ${
-                                  watchedHasBusinessIdea === false
+                                className={`flex-1 py-2.5 px-2 rounded-lg border font-sans text-xs font-semibold transition-all duration-200 cursor-pointer ${watchedHasBusinessIdea === false
                                     ? 'bg-primary border-primary text-white shadow-sm'
                                     : 'border-outline-variant/60 text-on-surface hover:bg-surface-low'
-                                }`}
+                                  }`}
                               >
                                 👎 Yo&apos;q, g&apos;oyam yo&apos;q
                               </button>

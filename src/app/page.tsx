@@ -113,7 +113,7 @@ export default function Home() {
                 <div className="flex items-center gap-2 text-white/90">
                   <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-white/10 text-tertiary">📍</span>
                   <div>
-                    <span className="font-bold block">Navoiy: 9-Iyun</span>
+                    <span className="font-bold block">Navoiy: 8-Iyun</span>
                     <span className="text-[10px] text-white/60">A.Navoiy istirohat bog&apos;i</span>
                   </div>
                 </div>

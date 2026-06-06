@@ -39,7 +39,7 @@ export default function BuxoroNavoiySuccess() {
       accentColor: 'from-secondary to-secondary-fixed-dim',
     },
     Navoiy: {
-      date: '2026-yil 9-iyun',
+      date: '2026-yil 8-iyun',
       time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
       park: 'A.Navoiy istirohat bog\'i',
       accentColor: 'from-primary to-primary-container',
