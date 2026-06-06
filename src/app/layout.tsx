@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   description: 'Yoshlar tadbirkorlik loyihasini tanlang va O\'zbekistondagi Biznes Bootcamp 2026 dasturiga ro\'yxatdan o\'ting.',
   keywords: ['Biznes Bootcamp', 'Bootcamp 2026', 'O\'zbekiston', 'Yoshlar tadbirkorligi'],
   icons: {
-    icon: '/headminilogo.png',
-    shortcut: '/headminilogo.png',
-    apple: '/headminilogo.png',
+    icon: '/minilogoyellow.png',
+    shortcut: '/minilogoyellow.png',
+    apple: '/minilogoyellow.png',
   },
 };
 
