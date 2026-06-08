@@ -7,7 +7,7 @@ import { Check, Home, MapPin, Calendar, Clock, Sparkles } from 'lucide-react';
 
 interface RegistrationDetails {
   firstName: string;
-  location: 'Buxoro' | 'Navoiy';
+  location: 'Navoiy' | 'Samarqand';
   isEntrepreneur: boolean;
 }
 
@@ -28,21 +28,21 @@ export default function BuxoroNavoiySuccess() {
     }
   }, []);
 
-  const location = details?.location || 'Buxoro';
+  const location = details?.location || 'Navoiy';
   const name = details?.firstName || 'Ishtirokchi';
 
   const eventInfo = {
-    Buxoro: {
-      date: '2026-yil 7-iyun',
-      time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
-      park: 'Somoniylar istirohat bog\'i',
-      accentColor: 'from-secondary to-secondary-fixed-dim',
-    },
     Navoiy: {
       date: '2026-yil 8-iyun',
       time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
       park: 'A.Navoiy istirohat bog\'i',
       accentColor: 'from-primary to-primary-container',
+    },
+    Samarqand: {
+      date: '2026-yil 10-iyun',
+      time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
+      park: 'Yoshlar hiyoboni',
+      accentColor: 'from-secondary to-secondary-fixed-dim',
     },
   }[location];
 

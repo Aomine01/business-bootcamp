@@ -120,7 +120,7 @@ export default function BuxoroNavoiySurvey() {
       first_name: values.firstName,
       surname: values.surname,
       phone_number: fullPhoneNumber,
-      location: values.location,
+      location: values.location === 'Samarqand' ? 'Buxoro' : values.location,
       age: parseInt(values.age, 10),
       telegram_username: values.telegramUsername ? (values.telegramUsername.startsWith('@') ? values.telegramUsername : `@${values.telegramUsername}`) : undefined,
       is_entrepreneur: values.isEntrepreneur,
@@ -190,7 +190,7 @@ export default function BuxoroNavoiySurvey() {
               Biznes Bootcamp 2026
             </h1>
             <p className="text-xs text-on-surface-variant font-medium mt-1">
-              Buxoro va Navoiy viloyatlaridagi yosh tadbirkorlar va tadbirkorlikka qiziquvchilar uchun ro&apos;yxatdan o&apos;tish shakli.
+              Navoiy va Samarqand viloyatlaridagi yosh tadbirkorlar va tadbirkorlikka qiziquvchilar uchun ro&apos;yxatdan o&apos;tish shakli.
             </p>
           </div>
         </div>
@@ -290,24 +290,24 @@ export default function BuxoroNavoiySurvey() {
                     </div>
 
                     <div className="grid grid-cols-1 gap-4">
-                      {/* Buxoro Card */}
+                      {/* Samarqand Card */}
                       <button
                         type="button"
-                        onClick={() => setValue('location', 'Buxoro', { shouldValidate: true })}
-                        className={`flex flex-col text-left p-3.5 sm:p-5 rounded-2xl border-2 transition-all duration-300 relative overflow-hidden group cursor-pointer ${watchedLocation === 'Buxoro'
+                        onClick={() => setValue('location', 'Samarqand', { shouldValidate: true })}
+                        className={`flex flex-col text-left p-3.5 sm:p-5 rounded-2xl border-2 transition-all duration-300 relative overflow-hidden group cursor-pointer ${watchedLocation === 'Samarqand'
                             ? 'border-secondary bg-secondary/5 ring-4 ring-secondary/5 shadow-md'
                             : 'border-outline-variant/50 hover:border-primary/40 bg-white hover:bg-surface-low'
                           }`}
                       >
-                        {/* Colorful Side Ribbon (Buxoro Colors) */}
+                        {/* Colorful Side Ribbon (Samarqand Colors) */}
                         <div className="absolute left-0 top-0 bottom-0 w-2.5 bg-secondary" />
 
                         <div className="pl-3">
                           <div className="flex justify-between items-start">
                             <span className="text-[10px] sm:text-xs font-inter font-extrabold tracking-wider text-secondary uppercase bg-secondary/10 px-2 py-0.5 rounded-full">
-                              7-IYUN, 2026
+                              10-IYUN, 2026
                             </span>
-                            {watchedLocation === 'Buxoro' && (
+                            {watchedLocation === 'Samarqand' && (
                               <div className="bg-secondary text-white rounded-full p-0.5">
                                 <Check size={14} strokeWidth={3} />
                               </div>
@@ -315,13 +315,13 @@ export default function BuxoroNavoiySurvey() {
                           </div>
 
                           <h3 className="font-montserrat text-base sm:text-lg font-extrabold text-primary mt-2">
-                            BUXORO VILOYATI
+                            SAMARQAND VILOYATI
                           </h3>
                           <p className="font-sans text-xs sm:text-sm text-on-surface-variant mt-1.5 leading-relaxed font-semibold">
-                            📍 Somoniylar istirohat bog&apos;i
+                            📍 Yoshlar hiyoboni
                           </p>
                           <p className="font-sans text-xs text-on-surface-variant/80 mt-1.5">
-                            Buxoro shahridagi markaziy tadbirlar maydoni. Yakka tartibdagi biznes maslahatlar va amaliy darslar.
+                            Samarqand shahridagi yoshlar sayilgohi. Innovatsion g&apos;oyalar taqdimoti va mentorlik sessiyalari.
                           </p>
                         </div>
                       </button>
@@ -603,13 +603,13 @@ export default function BuxoroNavoiySurvey() {
                         <div>
                           <span className="text-on-surface-variant/75 font-semibold block text-[10px] sm:text-[11px] uppercase">TADBIR VAQTI:</span>
                           <span className="font-bold text-secondary text-xs sm:text-sm">
-                            {watchedLocation === 'Buxoro' ? '7-Iyun, 2026' : '9-Iyun, 2026'}
+                            {watchedLocation === 'Samarqand' ? '10-Iyun, 2026' : '8-Iyun, 2026'}
                           </span>
                         </div>
                         <div className="col-span-2">
                           <span className="text-on-surface-variant/75 font-semibold block text-[10px] sm:text-[11px] uppercase">MANZIL:</span>
                           <span className="font-bold text-primary text-xs sm:text-sm leading-normal">
-                            {watchedLocation === 'Buxoro' ? 'Somoniylar istirohat bog\'i' : 'A.Navoiy istirohat bog\'i'}
+                            {watchedLocation === 'Samarqand' ? 'Yoshlar hiyoboni' : 'A.Navoiy istirohat bog\'i'}
                           </span>
                         </div>
                       </div>
