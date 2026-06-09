@@ -7,7 +7,7 @@ import { Check, Home, MapPin, Calendar, Clock, Sparkles } from 'lucide-react';
 
 interface RegistrationDetails {
   firstName: string;
-  location: 'Navoiy' | 'Samarqand';
+  location: 'Surxondaryo' | 'Samarqand';
   isEntrepreneur: boolean;
 }
 
@@ -28,14 +28,14 @@ export default function BuxoroNavoiySuccess() {
     }
   }, []);
 
-  const location = details?.location || 'Navoiy';
+  const location = details?.location || 'Surxondaryo';
   const name = details?.firstName || 'Ishtirokchi';
 
   const eventInfo = {
-    Navoiy: {
-      date: '2026-yil 8-iyun',
+    Surxondaryo: {
+      date: '2026-yil 12-iyun',
       time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
-      park: 'A.Navoiy istirohat bog\'i',
+      park: 'Termiz shahri, San\'at saroyi',
       accentColor: 'from-primary to-primary-container',
     },
     Samarqand: {

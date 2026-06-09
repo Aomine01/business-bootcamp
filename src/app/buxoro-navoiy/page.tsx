@@ -120,7 +120,7 @@ export default function BuxoroNavoiySurvey() {
       first_name: values.firstName,
       surname: values.surname,
       phone_number: fullPhoneNumber,
-      location: values.location === 'Samarqand' ? 'Buxoro' : values.location,
+      location: values.location,
       age: parseInt(values.age, 10),
       telegram_username: values.telegramUsername ? (values.telegramUsername.startsWith('@') ? values.telegramUsername : `@${values.telegramUsername}`) : undefined,
       is_entrepreneur: values.isEntrepreneur,
@@ -190,7 +190,7 @@ export default function BuxoroNavoiySurvey() {
               Biznes Bootcamp 2026
             </h1>
             <p className="text-xs text-on-surface-variant font-medium mt-1">
-              Navoiy va Samarqand viloyatlaridagi yosh tadbirkorlar va tadbirkorlikka qiziquvchilar uchun ro&apos;yxatdan o&apos;tish shakli.
+              Samarqand va Surxondaryo viloyatlaridagi yosh tadbirkorlar va tadbirkorlikka qiziquvchilar uchun ro&apos;yxatdan o&apos;tish shakli.
             </p>
           </div>
         </div>
@@ -326,24 +326,24 @@ export default function BuxoroNavoiySurvey() {
                         </div>
                       </button>
 
-                      {/* Navoiy Card */}
+                      {/* Surxondaryo Card */}
                       <button
                         type="button"
-                        onClick={() => setValue('location', 'Navoiy', { shouldValidate: true })}
-                        className={`flex flex-col text-left p-3.5 sm:p-5 rounded-2xl border-2 transition-all duration-300 relative overflow-hidden group cursor-pointer ${watchedLocation === 'Navoiy'
+                        onClick={() => setValue('location', 'Surxondaryo', { shouldValidate: true })}
+                        className={`flex flex-col text-left p-3.5 sm:p-5 rounded-2xl border-2 transition-all duration-300 relative overflow-hidden group cursor-pointer ${watchedLocation === 'Surxondaryo'
                             ? 'border-primary bg-primary/5 ring-4 ring-primary/5 shadow-md'
                             : 'border-outline-variant/50 hover:border-primary/40 bg-white hover:bg-surface-low'
                           }`}
                       >
-                        {/* Colorful Side Ribbon (Navoiy Colors) */}
+                        {/* Colorful Side Ribbon (Surxondaryo Colors) */}
                         <div className="absolute left-0 top-0 bottom-0 w-2.5 bg-tertiary" />
 
                         <div className="pl-3">
                           <div className="flex justify-between items-start">
                             <span className="text-[10px] sm:text-xs font-inter font-extrabold tracking-wider text-tertiary-container bg-tertiary/20 px-2 py-0.5 rounded-full uppercase">
-                              8-IYUN, 2026
+                              12-IYUN, 2026
                             </span>
-                            {watchedLocation === 'Navoiy' && (
+                            {watchedLocation === 'Surxondaryo' && (
                               <div className="bg-primary text-white rounded-full p-0.5">
                                 <Check size={14} strokeWidth={3} />
                               </div>
@@ -351,13 +351,13 @@ export default function BuxoroNavoiySurvey() {
                           </div>
 
                           <h3 className="font-montserrat text-base sm:text-lg font-extrabold text-primary mt-2">
-                            NAVOIY VILOYATI
+                            SURXONDARYO VILOYATI
                           </h3>
                           <p className="font-sans text-xs sm:text-sm text-on-surface-variant mt-1.5 leading-relaxed font-semibold">
-                            📍 A.Navoiy istirohat bog&apos;i
+                            📍 Termiz shahri, San&apos;at saroyi
                           </p>
                           <p className="font-sans text-xs text-on-surface-variant/80 mt-1.5">
-                            Navoiy shahridagi yashil park hududi. Innovatsion g&apos;oyalar taqdimoti va mentorlik sessiyalari.
+                            Termiz shahridagi San&apos;at saroyi majmuasi. Innovatsion g&apos;oyalar taqdimoti va mentorlik sessiyalari.
                           </p>
                         </div>
                       </button>
@@ -603,13 +603,13 @@ export default function BuxoroNavoiySurvey() {
                         <div>
                           <span className="text-on-surface-variant/75 font-semibold block text-[10px] sm:text-[11px] uppercase">TADBIR VAQTI:</span>
                           <span className="font-bold text-secondary text-xs sm:text-sm">
-                            {watchedLocation === 'Samarqand' ? '10-Iyun, 2026' : '8-Iyun, 2026'}
+                            {watchedLocation === 'Samarqand' ? '10-Iyun, 2026' : '12-Iyun, 2026'}
                           </span>
                         </div>
                         <div className="col-span-2">
                           <span className="text-on-surface-variant/75 font-semibold block text-[10px] sm:text-[11px] uppercase">MANZIL:</span>
                           <span className="font-bold text-primary text-xs sm:text-sm leading-normal">
-                            {watchedLocation === 'Samarqand' ? 'Yoshlar hiyoboni' : 'A.Navoiy istirohat bog\'i'}
+                            {watchedLocation === 'Samarqand' ? 'Yoshlar hiyoboni' : 'Termiz shahri, San\'at saroyi'}
                           </span>
                         </div>
                       </div>
