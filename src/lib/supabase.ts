@@ -181,3 +181,84 @@ export function getMockBuxoroNavoiyRegistrations(): any[] {
   return existing ? JSON.parse(existing) : [];
 }
 
+export interface BootcampXYbmRegistrationData {
+  full_name: string;
+  birth_date: string;
+  gender: string;
+  phone_number: string;
+  region: string;
+  business_name: string;
+  business_status: string;
+  business_direction: string;
+  business_description: string;
+  business_structure: string;
+  employee_count: string;
+  monthly_turnover: string;
+  social_media: string;
+  competitive_advantage: string;
+  growth_six_months: string;
+  five_year_vision: string;
+  pain_point_solved?: string;
+  discovery_source: string;
+  main_challenges?: string;
+  expected_results?: string;
+}
+
+/**
+ * Saves a Bootcamp x YBM registration to the database (or localStorage if in mock mode)
+ */
+export async function submitBootcampXYbmRegistration(
+  data: BootcampXYbmRegistrationData
+): Promise<{ success: boolean; error?: string }> {
+  if (isMockMode) {
+    // Simulate API delay
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    
+    try {
+      const existing = localStorage.getItem('bootcamp_x_ybm_registrations');
+      const registrations = existing ? JSON.parse(existing) : [];
+      
+      const newRecord = {
+        id: crypto.randomUUID(),
+        created_at: new Date().toISOString(),
+        ...data,
+      };
+      
+      registrations.push(newRecord);
+      localStorage.setItem('bootcamp_x_ybm_registrations', JSON.stringify(registrations));
+      console.log('✅ Bootcamp Portal: Mock Bootcamp x YBM submission saved successfully:', newRecord);
+      return { success: true };
+    } catch (e) {
+      console.error('❌ Bootcamp Portal: Error saving mock YBM submission:', e);
+      return { success: false, error: 'Failed to write mock submission' };
+    }
+  } else {
+    try {
+      const { error } = await supabase!
+        .from('bootcamp_x_ybm_registrations')
+        .insert([data]);
+        
+      if (error) {
+        console.error('❌ Bootcamp Portal: Bootcamp x YBM insertion error:', error);
+        return { success: false, error: error.message };
+      }
+      
+      console.log('✅ Bootcamp Portal: Bootcamp x YBM submission successfully saved to Supabase!');
+      return { success: true };
+    } catch (e: any) {
+      console.error('❌ Bootcamp Portal: Unexpected YBM submission error:', e);
+      return { success: false, error: e.message || 'An unexpected error occurred' };
+    }
+  }
+}
+
+/**
+ * Helper to fetch mock YBM registrations for debugging/review in development
+ */
+export function getMockBootcampXYbmRegistrations(): any[] {
+  if (typeof window === 'undefined') return [];
+  const existing = localStorage.getItem('bootcamp_x_ybm_registrations');
+  return existing ? JSON.parse(existing) : [];
+}
+
+
