@@ -70,7 +70,7 @@ export default function YbmSuccessPage() {
         </div>
         
         <p className="font-sans text-sm text-on-surface-variant leading-relaxed mb-6">
-          Tabriklaymiz, <span className="font-bold text-primary">{fullName}</span>! Sizning Yoshlar Biznes Maktabi x Bootcamp so&apos;rovnomangiz muvaffaqiyatli qabul qilindi.
+          Tabriklaymiz, <span className="font-bold text-primary">{fullName}</span>! Sizning Yoshlar Biznes Maktabi so&apos;rovnomangiz muvaffaqiyatli qabul qilindi.
         </p>
 
         {/* Details card */}

@@ -227,7 +227,7 @@ export default function YbmQuestionnaire() {
               YOSHLAR BIZNES MAKTABI
             </span>
             <h1 className="font-montserrat text-xl sm:text-2xl font-extrabold text-primary tracking-tight leading-snug">
-              Yoshlar Biznes Maktabi x Bootcamp
+              Yoshlar Biznes Maktabi
             </h1>
             <p className="text-xs text-on-surface-variant font-medium mt-1">
               Yoshlar biznes maktabida o&apos;qishni istagan tadbirkorlar uchun maxsus so&apos;rovnoma.
