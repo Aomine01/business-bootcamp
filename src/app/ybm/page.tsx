@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
@@ -90,16 +90,6 @@ export default function YbmQuestionnaire() {
   const [step, setStep] = useState(1);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [step3Timestamp, setStep3Timestamp] = useState<number>(0);
-  const [isDedicatedDomain, setIsDedicatedDomain] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const hostname = window.location.hostname;
-      if (hostname.includes('business-bootcamp-ybm.uz')) {
-        setIsDedicatedDomain(true);
-      }
-    }
-  }, []);
 
   const {
     register,
@@ -208,11 +198,7 @@ export default function YbmQuestionnaire() {
           businessName: isEntrepreneur ? values.businessName : values.ideaDescription?.substring(0, 30) + "...",
         }));
       }
-      if (isDedicatedDomain) {
-        router.push('/success');
-      } else {
-        router.push('/bootcamp-x-ybm/success');
-      }
+      router.push('/ybm/success');
     } else {
       setSubmitError(result.error || "Tizimga yuborishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
     }
@@ -236,13 +222,7 @@ export default function YbmQuestionnaire() {
         {/* Navigation & Header */}
         <div className="flex flex-col space-y-3">
           <button
-            onClick={() => {
-              if (isDedicatedDomain) {
-                window.location.href = 'https://www.business-bootcamp.uz';
-              } else {
-                router.push('/');
-              }
-            }}
+            onClick={() => router.push('/')}
             className="self-start inline-flex items-center text-xs font-inter font-bold uppercase tracking-wider text-primary/70 hover:text-primary transition-colors py-1.5"
           >
             <ChevronLeft size={16} className="mr-1 text-secondary" />

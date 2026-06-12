@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 
 export default function Header() {
   const pathname = usePathname();
-  const isYbmRoute = pathname?.startsWith('/bootcamp-x-ybm');
+  const isYbmRoute = pathname?.startsWith('/ybm');
 
   return (
     <header className="sticky top-0 z-50 w-full glassmorphism shadow-ambient transition-all duration-300">
