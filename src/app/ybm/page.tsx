@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { ChevronLeft, ChevronRight, Check, User, Briefcase, GraduationCap } from 'lucide-react';
 import { TextInput, PhoneInput, TextArea } from '@/components/FormFields';
-import { submitBootcampXYbmRegistration } from '@/lib/supabase';
+import { submitYbmRegistration } from '@/lib/supabase';
 
 // Form validation schema with conditional refinement
 const ybmSchema = z.object({
@@ -189,13 +189,14 @@ export default function YbmQuestionnaire() {
       discovery_source: values.discoverySource || undefined,
     };
 
-    const result = await submitBootcampXYbmRegistration(payload);
+    const result = await submitYbmRegistration(payload);
 
     if (result.success) {
       if (typeof window !== 'undefined') {
         sessionStorage.setItem('ybm_last_registration_details', JSON.stringify({
           fullName: values.fullName,
           businessName: isEntrepreneur ? values.businessName : values.ideaDescription?.substring(0, 30) + "...",
+          isEntrepreneur,
         }));
       }
       router.push('/ybm/success');
@@ -660,7 +661,7 @@ export default function YbmQuestionnaire() {
 
         {/* Security / Privacy disclaimer */}
         <p className="text-[10px] text-center text-on-surface-variant/60 font-sans leading-relaxed">
-          Taqdim etilgan ma&apos;lumotlar xavfsiz saqlanadi va faqat Yoshlar Biznes Maktabi (YBM) hamda Business Bootcamp 2026 tashkilotchilari tomonidan foydalaniladi.
+          Taqdim etilgan ma&apos;lumotlar xavfsiz saqlanadi va faqat Yoshlar Biznes Maktabi (YBM) tashkilotchilari tomonidan foydalaniladi.
         </p>
 
       </div>
