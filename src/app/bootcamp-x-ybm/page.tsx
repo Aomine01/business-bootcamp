@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
@@ -50,6 +50,16 @@ export default function YbmQuestionnaire() {
   const [step, setStep] = useState(1);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [step5Timestamp, setStep5Timestamp] = useState<number>(0);
+  const [isDedicatedDomain, setIsDedicatedDomain] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hostname = window.location.hostname;
+      if (hostname.includes('business-bootcamp-ybm.uz') || hostname.includes('ybm.localhost')) {
+        setIsDedicatedDomain(true);
+      }
+    }
+  }, []);
 
   const {
     register,
@@ -173,7 +183,11 @@ export default function YbmQuestionnaire() {
           businessName: values.businessName,
         }));
       }
-      router.push('/bootcamp-x-ybm/success');
+      if (isDedicatedDomain) {
+        router.push('/success');
+      } else {
+        router.push('/bootcamp-x-ybm/success');
+      }
     } else {
       setSubmitError(result.error || "Tizimga yuborishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
     }
@@ -190,7 +204,13 @@ export default function YbmQuestionnaire() {
         {/* Navigation & Header */}
         <div className="flex flex-col space-y-3">
           <button
-            onClick={() => router.push('/')}
+            onClick={() => {
+              if (isDedicatedDomain) {
+                window.location.href = 'https://www.business-bootcamp.uz';
+              } else {
+                router.push('/');
+              }
+            }}
             className="self-start inline-flex items-center text-xs font-inter font-bold uppercase tracking-wider text-primary/70 hover:text-primary transition-colors py-1.5"
           >
             <ChevronLeft size={16} className="mr-1 text-secondary" />
