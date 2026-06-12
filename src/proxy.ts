@@ -11,8 +11,7 @@ export function proxy(request: NextRequest) {
   // Check if request is coming from the YBM domain
   if (
     cleanHost === 'business-bootcamp-ybm.uz' || 
-    cleanHost === 'www.business-bootcamp-ybm.uz' || 
-    cleanHost === 'ybm.localhost'
+    cleanHost === 'www.business-bootcamp-ybm.uz'
   ) {
     // Rewrite root path "/" to "/bootcamp-x-ybm"
     if (url.pathname === '/') {

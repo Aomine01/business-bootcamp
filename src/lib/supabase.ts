@@ -184,24 +184,18 @@ export function getMockBuxoroNavoiyRegistrations(): any[] {
 export interface BootcampXYbmRegistrationData {
   full_name: string;
   birth_date: string;
-  gender: string;
   phone_number: string;
   region: string;
-  business_name: string;
-  business_status: string;
-  business_direction: string;
-  business_description: string;
-  business_structure: string;
-  employee_count: string;
-  monthly_turnover: string;
-  social_media: string;
-  competitive_advantage: string;
-  growth_six_months: string;
-  five_year_vision: string;
-  pain_point_solved?: string;
-  discovery_source: string;
-  main_challenges?: string;
-  expected_results?: string;
+  entrepreneurship_status: string;
+  business_name?: string;
+  business_direction?: string;
+  business_description?: string;
+  monthly_turnover?: string;
+  social_media?: string;
+  idea_description?: string;
+  idea_direction?: string;
+  expected_results: string;
+  discovery_source?: string;
 }
 
 /**

@@ -7,7 +7,9 @@ import { Check, Home, Sparkles, Building, User } from 'lucide-react';
 
 interface YbmRegistrationDetails {
   fullName: string;
-  businessName: string;
+  businessName?: string;
+  ideaDescription?: string;
+  isEntrepreneur: boolean;
 }
 
 export default function YbmSuccessPage() {
@@ -28,7 +30,10 @@ export default function YbmSuccessPage() {
   }, []);
 
   const fullName = details?.fullName || 'Ishtirokchi';
-  const businessName = details?.businessName || 'Biznes';
+  const isEntrepreneur = details?.isEntrepreneur ?? true;
+  const businessOrIdea = isEntrepreneur 
+    ? (details?.businessName || 'Biznes') 
+    : (details?.ideaDescription || 'G\'oya');
 
   return (
     <div className="w-full flex-grow flex flex-col justify-center items-center bg-background px-4 py-8">
@@ -89,8 +94,12 @@ export default function YbmSuccessPage() {
             <div className="flex items-start">
               <Building size={15} className="text-secondary mr-2.5 mt-0.5 flex-shrink-0" />
               <div>
-                <span className="text-on-surface-variant/70 text-[10px] font-semibold block">BIZNES / BREND NOMI</span>
-                <span className="font-bold text-on-surface">{businessName}</span>
+                <span className="text-on-surface-variant/70 text-[10px] font-semibold block">
+                  {isEntrepreneur ? "BIZNES / BREND NOMI" : "BIZNES G'OYASI"}
+                </span>
+                <span className="font-bold text-on-surface line-clamp-2 max-w-[280px]">
+                  {businessOrIdea}
+                </span>
               </div>
             </div>
           </div>
