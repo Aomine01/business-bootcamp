@@ -221,13 +221,6 @@ export default function YbmQuestionnaire() {
         
         {/* Navigation & Header */}
         <div className="flex flex-col space-y-3">
-          <button
-            onClick={() => router.push('/')}
-            className="self-start inline-flex items-center text-xs font-inter font-bold uppercase tracking-wider text-primary/70 hover:text-primary transition-colors py-1.5"
-          >
-            <ChevronLeft size={16} className="mr-1 text-secondary" />
-            Bosh Sahifaga
-          </button>
 
           <div className="border-l-4 border-secondary pl-4 py-1.5">
             <span className="text-[10px] font-inter font-extrabold uppercase tracking-widest text-secondary">

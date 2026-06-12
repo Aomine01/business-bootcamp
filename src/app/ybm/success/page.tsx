@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Check, Home, Sparkles, Building, User } from 'lucide-react';
+import { Check, Sparkles, Building, User } from 'lucide-react';
 
 interface YbmRegistrationDetails {
   fullName: string;
@@ -13,7 +12,6 @@ interface YbmRegistrationDetails {
 }
 
 export default function YbmSuccessPage() {
-  const router = useRouter();
   const [details, setDetails] = useState<YbmRegistrationDetails | null>(null);
 
   useEffect(() => {
@@ -126,16 +124,7 @@ export default function YbmSuccessPage() {
           </ul>
         </div>
 
-        {/* Action Button */}
-        <motion.button
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.99 }}
-          onClick={() => router.push('/')}
-          className="w-full flex justify-center items-center rounded-xl bg-primary hover:bg-primary-container text-white font-inter font-bold text-sm tracking-wider py-4 px-6 shadow-md hover:shadow-lg transition-all cursor-pointer"
-        >
-          <Home size={16} className="mr-2" />
-          BOSH SAHIFAGA QAYTISH
-        </motion.button>
+        {/* Isolated flow: no back button link */}
       </motion.div>
     </div>
   );
