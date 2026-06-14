@@ -7,7 +7,7 @@ import { Check, Home, MapPin, Calendar, Clock, Sparkles } from 'lucide-react';
 
 interface RegistrationDetails {
   firstName: string;
-  location: 'Surxondaryo' | 'Samarqand';
+  location: 'Qashqafaryo';
   isEntrepreneur: boolean;
 }
 
@@ -28,20 +28,14 @@ export default function BuxoroNavoiySuccess() {
     }
   }, []);
 
-  const location = details?.location || 'Surxondaryo';
+  const location = details?.location || 'Qashqafaryo';
   const name = details?.firstName || 'Ishtirokchi';
 
   const eventInfo = {
-    Surxondaryo: {
-      date: '2026-yil 12-iyun',
+    Qashqafaryo: {
+      date: '2026-yil 15-iyun',
       time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
-      park: 'Termiz shahri, San\'at saroyi',
-      accentColor: 'from-primary to-primary-container',
-    },
-    Samarqand: {
-      date: '2026-yil 10-iyun',
-      time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
-      park: 'Yoshlar hiyoboni',
+      park: 'Shahrisabz, Amir Temur xiyoboni',
       accentColor: 'from-secondary to-secondary-fixed-dim',
     },
   }[location];
@@ -90,7 +84,9 @@ export default function BuxoroNavoiySuccess() {
         <div className="rounded-2xl bg-surface-low border border-outline-variant/40 p-4 mb-6 text-left space-y-3.5">
           <div className="border-b border-outline-variant/35 pb-2.5">
             <span className="text-[10px] font-inter font-extrabold uppercase tracking-widest text-primary/70">TADBIR TAFSILOTLARI</span>
-            <h3 className="font-montserrat text-sm font-extrabold text-primary mt-0.5">{location.toUpperCase()} VILOYATI BOOTCAMP</h3>
+            <h3 className="font-montserrat text-sm font-extrabold text-primary mt-0.5">
+              {(location === 'Qashqafaryo' ? 'Qashqadaryo' : location).toUpperCase()} VILOYATI BOOTCAMP
+            </h3>
           </div>
 
           <div className="space-y-3 font-sans text-xs">

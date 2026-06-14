@@ -96,25 +96,18 @@ export default function Home() {
                 Yaqinda bo&apos;lib o&apos;tadi
               </span>
               <h2 className="font-montserrat text-xl sm:text-2xl font-extrabold tracking-tight">
-                Samarqand & Surxondaryo Biznes Bootcamp 2026
+                Qashqadaryo Biznes Bootcamp 2026
               </h2>
               <p className="font-sans text-xs sm:text-sm text-white/80 max-w-lg leading-relaxed">
                 Tadbirkorlikni boshlash, kengaytirish va yangi g&apos;oyalarni amalda tatbiq etish bo&apos;yicha maxsus master-klasslar va mentorlik darslari.
               </p>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-xs">
-                <div className="flex items-center gap-2 text-white/90">
-                  <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-white/10 text-secondary-fixed">📍</span>
+              <div className="flex flex-col gap-3 pt-1 text-xs">
+                <div className="flex items-center gap-2.5 text-white/90">
+                  <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 text-secondary-fixed text-sm">📍</span>
                   <div>
-                    <span className="font-bold block">Samarqand: 10-Iyun</span>
-                    <span className="text-[10px] text-white/60">Yoshlar hiyoboni</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 text-white/90">
-                  <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-white/10 text-tertiary">📍</span>
-                  <div>
-                    <span className="font-bold block">Surxondaryo: 12-Iyun</span>
-                    <span className="text-[10px] text-white/60">Termiz shahri, San&apos;at saroyi</span>
+                    <span className="font-bold block text-sm">Qashqadaryo: 15-Iyun</span>
+                    <span className="text-[11px] text-white/70">Shahrisabz, Amir Temur xiyoboni</span>
                   </div>
                 </div>
               </div>
