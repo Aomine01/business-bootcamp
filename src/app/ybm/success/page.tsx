@@ -29,9 +29,7 @@ export default function YbmSuccessPage() {
 
   const fullName = details?.fullName || 'Ishtirokchi';
   const isEntrepreneur = details?.isEntrepreneur ?? true;
-  const businessOrIdea = isEntrepreneur 
-    ? (details?.businessName || 'Biznes') 
-    : (details?.ideaDescription || 'G\'oya');
+  const businessOrIdea = details?.businessName || (isEntrepreneur ? 'Biznes' : 'G\'oya');
 
   return (
     <div className="w-full flex-grow flex flex-col justify-center items-center bg-background px-4 py-8">

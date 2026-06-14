@@ -6,37 +6,43 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { ChevronLeft, ChevronRight, Check, User, Briefcase, GraduationCap } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Check, User, Briefcase, FileText, GraduationCap } from 'lucide-react';
 import { TextInput, PhoneInput, TextArea } from '@/components/FormFields';
 import { submitYbmRegistration } from '@/lib/supabase';
 
 // Form validation schema with conditional refinement
 const ybmSchema = z.object({
-  // 1-BO’LIM. Umumiy ma’lumotlar
+  // 1-BO’LIM. Shaxsiy ma’lumotlar
   fullName: z.string().min(3, "Ism va familiyangiz kamida 3 ta harfdan iborat bo'lishi kerak"),
   birthDate: z.string().min(1, "Tug'ilgan sana kiritilishi shart"),
+  gender: z.string().min(1, "Jinsingizni tanlang"),
   phoneNumber: z.string().length(9, "Telefon raqamingiz 9 ta raqamdan iborat bo'lishi kerak"),
   region: z.string().min(1, "Yashash hududingizni tanlang"),
-  entrepreneurshipStatus: z.string().min(1, "Tadbirkorlik maqomingizni belgilang"),
 
-  // 2-BO’LIM. Biznesingiz haqida (Optional, validated via superRefine)
+  // 2-BO’LIM. Biznes faoliyati
   businessName: z.string().optional(),
-  businessDirection: z.string().optional(),
-  businessDescription: z.string().optional(),
+  businessStatus: z.string().min(1, "Biznesdagi maqomingizni tanlang"),
+  businessDirection: z.string().min(1, "Faoliyat yo'nalishingizni tanlang"),
+  businessDescription: z.string().min(10, "Batafsil ma'lumot kiriting (kamida 10 ta belgi)"),
+  businessForm: z.string().optional(),
+  employeeCount: z.string().optional(),
   monthlyTurnover: z.string().optional(),
   socialMedia: z.string().optional(),
 
-  // 3-BO’LIM. G’oyangiz haqida (Optional, validated via superRefine)
-  ideaDescription: z.string().optional(),
-  ideaDirection: z.string().optional(),
+  // 3-BO’LIM. Biznes tahlili
+  competitiveAdvantage: z.string().optional(),
+  growthSixMonths: z.string().optional(),
+  fiveYearVision: z.string().optional(),
+  painSolved: z.string().optional(),
+  mainChallenges: z.string().optional(),
 
-  // 4-BO’LIM. Yakuniy savol
-  expectedResults: z.string().min(10, "Kutilayotgan natijangizni batafsil yozing (kamida 10 ta belgi)"),
+  // 4-BO’LIM. Yakuniy savollar
   discoverySource: z.string().optional(),
+  expectedResults: z.string().min(10, "Kutilayotgan natijangizni batafsil yozing (kamida 10 ta belgi)"),
 }).superRefine((data, ctx) => {
-  const isEntrepreneur = data.entrepreneurshipStatus !== "Yo’q, lekin biznes g’oyam bor";
+  const isIdea = data.businessStatus === "G’oya egasi";
 
-  if (isEntrepreneur) {
+  if (!isIdea) {
     if (!data.businessName || data.businessName.trim().length < 2) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -44,18 +50,18 @@ const ybmSchema = z.object({
         message: "Biznesingiz yoki brendingiz nomini kiriting",
       });
     }
-    if (!data.businessDirection) {
+    if (!data.businessForm) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        path: ['businessDirection'],
-        message: "Faoliyat yo'nalishingizni tanlang",
+        path: ['businessForm'],
+        message: "Biznes shaklini tanlang",
       });
     }
-    if (!data.businessDescription || data.businessDescription.trim().length < 10) {
+    if (!data.employeeCount) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        path: ['businessDescription'],
-        message: "Mahsulot yoki xizmatingiz haqida batafsil yozing (kamida 10 ta belgi)",
+        path: ['employeeCount'],
+        message: "Biznesdagi xodimlar sonini tanlang",
       });
     }
     if (!data.monthlyTurnover) {
@@ -65,19 +71,39 @@ const ybmSchema = z.object({
         message: "O'rtacha oylik aylanmangizni tanlang",
       });
     }
-  } else {
-    if (!data.ideaDescription || data.ideaDescription.trim().length < 10) {
+    if (!data.competitiveAdvantage || data.competitiveAdvantage.trim().length < 5) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        path: ['ideaDescription'],
-        message: "Biznes g'oyangizni batafsil yozing (kamida 10 ta belgi)",
+        path: ['competitiveAdvantage'],
+        message: "Raqobatchilardan ajratib turadigan jihatni yozing (kamida 5 ta belgi)",
       });
     }
-    if (!data.ideaDirection) {
+    if (!data.growthSixMonths || data.growthSixMonths.trim().length < 5) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        path: ['ideaDirection'],
-        message: "G'oyangiz qaysi yo'nalishga tegishli ekanligini tanlang",
+        path: ['growthSixMonths'],
+        message: "Oxirgi 6 oydagi o'sish ko'rsatkichlarini yozing (kamida 5 ta belgi)",
+      });
+    }
+    if (!data.fiveYearVision || data.fiveYearVision.trim().length < 5) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['fiveYearVision'],
+        message: "5 yillik tasavvuringizni yozing (kamida 5 ta belgi)",
+      });
+    }
+    if (!data.painSolved || data.painSolved.trim().length < 5) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['painSolved'],
+        message: "Jamiyatdagi qanday og'riqni hal qilayotganini yozing (kamida 5 ta belgi)",
+      });
+    }
+    if (!data.mainChallenges || data.mainChallenges.trim().length < 5) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['mainChallenges'],
+        message: "Asosiy qiyinchiliklarni yozing (kamida 5 ta belgi)",
       });
     }
   }
@@ -89,7 +115,7 @@ export default function YbmQuestionnaire() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [step3Timestamp, setStep3Timestamp] = useState<number>(0);
+  const [step4Timestamp, setStep4Timestamp] = useState<number>(0);
 
   const {
     register,
@@ -105,34 +131,43 @@ export default function YbmQuestionnaire() {
     defaultValues: {
       fullName: '',
       birthDate: '',
+      gender: '',
       phoneNumber: '',
       region: '',
-      entrepreneurshipStatus: '',
       businessName: '',
+      businessStatus: '',
       businessDirection: '',
       businessDescription: '',
+      businessForm: '',
+      employeeCount: '',
       monthlyTurnover: '',
       socialMedia: '',
-      ideaDescription: '',
-      ideaDirection: '',
+      competitiveAdvantage: '',
+      growthSixMonths: '',
+      fiveYearVision: '',
+      painSolved: '',
+      mainChallenges: '',
       expectedResults: '',
       discoverySource: '',
     },
   });
 
-  const watchedStatus = watch('entrepreneurshipStatus');
+  const watchedStatus = watch('businessStatus');
   const watchedRegion = watch('region');
+  const watchedGender = watch('gender');
   const watchedBusinessDirection = watch('businessDirection');
-  const watchedIdeaDirection = watch('ideaDirection');
+  const watchedBusinessForm = watch('businessForm');
+  const watchedEmployeeCount = watch('employeeCount');
   const watchedTurnover = watch('monthlyTurnover');
   const watchedSource = watch('discoverySource');
 
-  const isEntrepreneur = watchedStatus !== "Yo’q, lekin biznes g’oyam bor";
+  const isEntrepreneur = watchedStatus !== "G’oya egasi";
 
   const steps = [
-    { id: 1, name: "Umumiy", icon: User },
-    { id: 2, name: isEntrepreneur ? "Biznes" : "G'oya", icon: Briefcase },
-    { id: 3, name: "Yakuniy", icon: GraduationCap },
+    { id: 1, name: "Shaxsiy", icon: User },
+    { id: 2, name: "Faoliyat", icon: Briefcase },
+    { id: 3, name: "Tahlil", icon: FileText },
+    { id: 4, name: "Yakuniy", icon: GraduationCap },
   ];
 
   // Helper to validate step transitions
@@ -140,21 +175,23 @@ export default function YbmQuestionnaire() {
     let fieldsToValidate: Array<keyof YbmFormValues> = [];
 
     if (step === 1) {
-      fieldsToValidate = ['fullName', 'birthDate', 'phoneNumber', 'region', 'entrepreneurshipStatus'];
+      fieldsToValidate = ['fullName', 'birthDate', 'gender', 'phoneNumber', 'region'];
     } else if (step === 2) {
-      if (isEntrepreneur) {
-        fieldsToValidate = ['businessName', 'businessDirection', 'businessDescription', 'monthlyTurnover'];
-      } else {
-        fieldsToValidate = ['ideaDescription', 'ideaDirection'];
-      }
+      fieldsToValidate = isEntrepreneur
+        ? ['businessName', 'businessStatus', 'businessDirection', 'businessDescription', 'businessForm', 'employeeCount', 'monthlyTurnover']
+        : ['businessStatus', 'businessDirection', 'businessDescription'];
+    } else if (step === 3) {
+      fieldsToValidate = isEntrepreneur
+        ? ['competitiveAdvantage', 'growthSixMonths', 'fiveYearVision', 'painSolved', 'mainChallenges']
+        : [];
     }
 
     const isValid = await trigger(fieldsToValidate);
     if (isValid) {
       setStep((prev) => {
-        const next = Math.min(prev + 1, 3);
-        if (next === 3) {
-          setStep3Timestamp(Date.now());
+        const next = Math.min(prev + 1, 4);
+        if (next === 4) {
+          setStep4Timestamp(Date.now());
         }
         return next;
       });
@@ -166,7 +203,7 @@ export default function YbmQuestionnaire() {
   };
 
   const onSubmit = async (values: YbmFormValues) => {
-    if (step < 3 || (Date.now() - step3Timestamp < 600)) {
+    if (step < 4 || (Date.now() - step4Timestamp < 600)) {
       return;
     }
     setSubmitError(null);
@@ -175,16 +212,22 @@ export default function YbmQuestionnaire() {
     const payload = {
       full_name: values.fullName,
       birth_date: values.birthDate,
+      gender: values.gender,
       phone_number: fullPhoneNumber,
       region: values.region,
-      entrepreneurship_status: values.entrepreneurshipStatus,
+      business_status: values.businessStatus,
+      business_direction: values.businessDirection,
+      business_description: values.businessDescription,
       business_name: isEntrepreneur ? values.businessName : undefined,
-      business_direction: isEntrepreneur ? values.businessDirection : undefined,
-      business_description: isEntrepreneur ? values.businessDescription : undefined,
+      business_form: isEntrepreneur ? values.businessForm : undefined,
+      employee_count: isEntrepreneur ? values.employeeCount : undefined,
       monthly_turnover: isEntrepreneur ? values.monthlyTurnover : undefined,
-      social_media: isEntrepreneur ? (values.socialMedia || undefined) : undefined,
-      idea_description: !isEntrepreneur ? values.ideaDescription : undefined,
-      idea_direction: !isEntrepreneur ? values.ideaDirection : undefined,
+      social_media: values.socialMedia || undefined,
+      competitive_advantage: isEntrepreneur ? values.competitiveAdvantage : undefined,
+      growth_six_months: isEntrepreneur ? values.growthSixMonths : undefined,
+      five_year_vision: isEntrepreneur ? values.fiveYearVision : undefined,
+      pain_solved: isEntrepreneur ? values.painSolved : undefined,
+      main_challenges: isEntrepreneur ? values.mainChallenges : undefined,
       expected_results: values.expectedResults,
       discovery_source: values.discoverySource || undefined,
     };
@@ -195,7 +238,7 @@ export default function YbmQuestionnaire() {
       if (typeof window !== 'undefined') {
         sessionStorage.setItem('ybm_last_registration_details', JSON.stringify({
           fullName: values.fullName,
-          businessName: isEntrepreneur ? values.businessName : values.ideaDescription?.substring(0, 30) + "...",
+          businessName: isEntrepreneur ? values.businessName : values.businessDescription.substring(0, 30) + "...",
           isEntrepreneur,
         }));
       }
@@ -206,10 +249,14 @@ export default function YbmQuestionnaire() {
   };
 
   const directionOptions = [
-    "Savdo va e-tijorat", "Ishlab chiqarish", "Xizmat ko’rsatish", 
-    "Oziq-ovqat", "Ta’lim", "IT/Texnologiya", 
-    "Qishloq xo’jaligi", "Qurilish", "Logistika", 
-    "Turizm", "Boshqa"
+    "Chakana savdo", "Dizayn", "Elektron tijorat", "Energetika", "Farmasevtika",
+    "Fintech", "Huquq", "Ilmiy tadqiqot", "Ishlab chiqarish", "Kimyo sanoati",
+    "Ko‘chmas mulk", "Ko‘ngil ochar", "Kon sanoati", "Konsalting", "Logistika",
+    "Marketing", "Media", "Mehmonxona xizmatlari", "Moliya", "Notijorat",
+    "Oziq-ovqat va ichimliklar", "Qishloq xo‘jaligi", "Qurilish", "Reklama",
+    "San’at", "Sog‘liqni saqlash", "Sport va salomatlik", "Ta’lim",
+    "Telekommunikatsiya", "Texnologiya", "To‘qimachilik", "Transport",
+    "Turizm", "Boshqalar"
   ];
 
   return (
@@ -222,7 +269,6 @@ export default function YbmQuestionnaire() {
         
         {/* Navigation & Header */}
         <div className="flex flex-col space-y-3">
-
           <div className="border-l-4 border-secondary pl-4 py-1.5">
             <span className="text-[10px] font-inter font-extrabold uppercase tracking-widest text-secondary">
               YOSHLAR BIZNES MAKTABI
@@ -231,7 +277,7 @@ export default function YbmQuestionnaire() {
               Yoshlar Biznes Maktabi
             </h1>
             <p className="text-xs text-on-surface-variant font-medium mt-1">
-              Yoshlar biznes maktabida o&apos;qishni istagan tadbirkorlar uchun maxsus so&apos;rovnoma.
+              Tashabbuslar Marafonida qatnashadigan yosh tadbirkorlar uchun maxsus so&apos;rovnoma.
             </p>
           </div>
         </div>
@@ -242,7 +288,7 @@ export default function YbmQuestionnaire() {
             <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 h-[2px] bg-surface-container" />
             <div
               className="absolute left-4 top-1/2 -translate-y-1/2 h-[2px] bg-secondary transition-all duration-300"
-              style={{ width: `${((step - 1) / 2) * 100}%` }}
+              style={{ width: `${((step - 1) / 3) * 100}%` }}
             />
 
             {steps.map((s) => {
@@ -260,8 +306,9 @@ export default function YbmQuestionnaire() {
                         let canJump = true;
                         for (let i = step; i < s.id; i++) {
                           let fields: Array<keyof YbmFormValues> = [];
-                          if (i === 1) fields = ['fullName', 'birthDate', 'phoneNumber', 'region', 'entrepreneurshipStatus'];
-                          else if (i === 2) fields = isEntrepreneur ? ['businessName', 'businessDirection', 'businessDescription', 'monthlyTurnover'] : ['ideaDescription', 'ideaDirection'];
+                          if (i === 1) fields = ['fullName', 'birthDate', 'gender', 'phoneNumber', 'region'];
+                          else if (i === 2) fields = isEntrepreneur ? ['businessName', 'businessStatus', 'businessDirection', 'businessDescription', 'businessForm', 'employeeCount', 'monthlyTurnover'] : ['businessStatus', 'businessDirection', 'businessDescription'];
+                          else if (i === 3) fields = isEntrepreneur ? ['competitiveAdvantage', 'growthSixMonths', 'fiveYearVision', 'painSolved', 'mainChallenges'] : [];
 
                           const check = await trigger(fields);
                           if (!check) {
@@ -327,12 +374,12 @@ export default function YbmQuestionnaire() {
                     className="space-y-4"
                   >
                     <div className="border-b border-outline-variant/30 pb-3 mb-2">
-                      <h2 className="font-montserrat text-base font-extrabold text-primary">1-BO’LIM. Umumiy ma’lumotlar</h2>
-                      <p className="text-xs text-on-surface-variant font-medium mt-0.5">Siz bilan bog&apos;lanish va tadbirkorlik maqomingizni aniqlash uchun zarur bo&apos;lgan asosiy ma&apos;lumotlar.</p>
+                      <h2 className="font-montserrat text-base font-extrabold text-primary">1-BO’LIM. Shaxsiy ma’lumotlar</h2>
+                      <p className="text-xs text-on-surface-variant font-medium mt-0.5">Siz bilan bog&apos;lanish uchun zarur bo&apos;lgan asosiy ma&apos;lumotlar.</p>
                     </div>
 
                     <TextInput
-                      label="To‘liq ismingiz (F.I.Sh.) *"
+                      label="Ismingiz va Familiyangiz *"
                       placeholder="F.I.Sh. kiriting"
                       error={errors.fullName?.message}
                       {...register('fullName')}
@@ -360,7 +407,36 @@ export default function YbmQuestionnaire() {
                       />
                     </div>
 
-                    <div className="w-full flex flex-col space-y-1.5">
+                    <div className="w-full flex flex-col space-y-2 pt-1.5">
+                      <label className="text-xs font-inter font-bold uppercase tracking-wider text-primary">
+                        Jinsingiz *
+                      </label>
+                      <div className="grid grid-cols-2 gap-3">
+                        {["Erkak", "Ayol"].map((opt) => (
+                          <button
+                            key={opt}
+                            type="button"
+                            onClick={() => {
+                              setValue('gender', opt, { shouldValidate: true });
+                            }}
+                            className={`py-3 px-4 rounded-xl border-2 font-inter font-bold text-xs sm:text-sm transition-all duration-200 cursor-pointer text-center ${
+                              watchedGender === opt
+                                ? 'border-primary bg-primary/5 text-primary shadow-sm font-extrabold'
+                                : 'border-outline-variant/50 hover:border-primary/40 bg-white text-on-surface-variant'
+                            }`}
+                          >
+                            {opt}
+                          </button>
+                        ))}
+                      </div>
+                      {errors.gender && (
+                        <span className="text-xs font-sans font-medium text-error mt-1 flex items-center">
+                          <span className="mr-1">⚠️</span> {errors.gender.message}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="w-full flex flex-col space-y-1.5 pt-1.5">
                       <label className="text-xs font-inter font-bold uppercase tracking-wider text-primary">
                         Yashash hududingiz *
                       </label>
@@ -373,10 +449,9 @@ export default function YbmQuestionnaire() {
                       >
                         <option value="">Tanlang...</option>
                         {[
-                          "Qoraqalpog’iston Respublikasi", "Andijon", "Buxoro", 
-                          "Farg’ona", "Jizzax", "Namangan", "Navoiy", 
-                          "Qashqadaryo", "Samarqand", "Sirdaryo", 
-                          "Surxondaryo", "Toshkent viloyati", "Toshkent shahri", "Xorazm"
+                          "Toshkent sh.", "Toshkent v.", "Andijon", "Farg’ona", "Namangan", 
+                          "Sirdaryo", "Jizzax", "Samarqand", "Navoiy", "Buxoro", 
+                          "Xorazm", "Qoraqalpog’iston r.", "Qashqadaryo", "Surxondaryo"
                         ].map((r) => (
                           <option key={r} value={r}>{r}</option>
                         ))}
@@ -387,43 +462,10 @@ export default function YbmQuestionnaire() {
                         </span>
                       )}
                     </div>
-
-                    <div className="w-full flex flex-col space-y-2 pt-1.5">
-                      <label className="text-xs font-inter font-bold uppercase tracking-wider text-primary">
-                        Hozirda tadbirkorlik bilan shug’ullanasizmi? *
-                      </label>
-                      <div className="flex flex-col space-y-2">
-                        {[
-                          "Ha, faoliyat yuritayotgan biznesim bor",
-                          "Endi boshlayapman (ro’yxatdan o’tganman, faoliyat boshlanmagan)",
-                          "Yo’q, lekin biznes g’oyam bor"
-                        ].map((opt) => (
-                          <button
-                            key={opt}
-                            type="button"
-                            onClick={() => {
-                              setValue('entrepreneurshipStatus', opt, { shouldValidate: true });
-                            }}
-                            className={`py-3.5 px-4 rounded-xl border-2 font-inter font-bold text-xs sm:text-sm transition-all duration-200 cursor-pointer text-left ${
-                              watchedStatus === opt
-                                ? 'border-primary bg-primary/5 text-primary shadow-sm font-extrabold'
-                                : 'border-outline-variant/50 hover:border-primary/40 bg-white text-on-surface-variant'
-                            }`}
-                          >
-                            {opt}
-                          </button>
-                        ))}
-                      </div>
-                      {errors.entrepreneurshipStatus && (
-                        <span className="text-xs font-sans font-medium text-error mt-1 flex items-center">
-                          <span className="mr-1">⚠️</span> {errors.entrepreneurshipStatus.message}
-                        </span>
-                      )}
-                    </div>
                   </motion.div>
                 )}
 
-                {/* STEP 2: Conditional Details */}
+                {/* STEP 2: Business Activity */}
                 {step === 2 && (
                   <motion.div
                     key="step-2"
@@ -433,58 +475,135 @@ export default function YbmQuestionnaire() {
                     transition={{ duration: 0.2 }}
                     className="space-y-4"
                   >
-                    {isEntrepreneur ? (
+                    <div className="border-b border-outline-variant/30 pb-3 mb-2">
+                      <h2 className="font-montserrat text-base font-extrabold text-primary">2-BO’LIM. Biznes faoliyati</h2>
+                      <p className="text-xs text-on-surface-variant font-medium mt-0.5">Siz yuritayotgan biznes yoki amalga oshirayotgan g&apos;oyangiz tafsilotlari.</p>
+                    </div>
+
+                    <div className="w-full flex flex-col space-y-2">
+                      <label className="text-xs font-inter font-bold uppercase tracking-wider text-primary">
+                        Biznesdagi maqomingiz *
+                      </label>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                        {["Asoschi", "Yollanma raxbar", "Investor", "G’oya egasi", "boshqalar"].map((opt) => (
+                          <button
+                            key={opt}
+                            type="button"
+                            onClick={() => {
+                              setValue('businessStatus', opt, { shouldValidate: true });
+                            }}
+                            className={`py-2.5 px-3 rounded-xl border-2 font-inter font-bold text-xs transition-all duration-200 cursor-pointer text-center capitalize ${
+                              watchedStatus === opt
+                                ? 'border-primary bg-primary/5 text-primary shadow-sm font-extrabold'
+                                : 'border-outline-variant/50 hover:border-primary/40 bg-white text-on-surface-variant'
+                            }`}
+                          >
+                            {opt === 'boshqalar' ? 'Boshqalar' : opt}
+                          </button>
+                        ))}
+                      </div>
+                      {errors.businessStatus && (
+                        <span className="text-xs font-sans font-medium text-error mt-1 flex items-center">
+                          <span className="mr-1">⚠️</span> {errors.businessStatus.message}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1.5">
+                      <TextInput
+                        label={isEntrepreneur ? "Biznesingiz yoki brend nomi *" : "Biznesingiz yoki brend nomi (ixtiyoriy)"}
+                        placeholder="Brend nomini kiriting"
+                        error={errors.businessName?.message}
+                        {...register('businessName')}
+                      />
+
+                      <div className="w-full flex flex-col space-y-1.5">
+                        <label className="text-xs font-inter font-bold uppercase tracking-wider text-primary">
+                          Faoliyat yo’nalishingiz *
+                        </label>
+                        <select
+                          className={`w-full rounded-[8px] bg-white border border-outline-variant/60 px-4 py-3 text-on-surface font-sans text-base sm:text-sm outline-none transition-all duration-200 focus:border-primary-container focus:ring-2 focus:ring-primary/5 ${
+                            errors.businessDirection ? 'border-error focus:border-error focus:ring-error/5' : ''
+                          }`}
+                          value={watchedBusinessDirection}
+                          {...register('businessDirection')}
+                        >
+                          <option value="">Tanlang...</option>
+                          {directionOptions.map((d) => (
+                            <option key={d} value={d}>{d}</option>
+                          ))}
+                        </select>
+                        {errors.businessDirection && (
+                          <span className="text-xs font-sans font-medium text-error mt-1 flex items-center">
+                            <span className="mr-1">⚠️</span> {errors.businessDirection.message}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <TextArea
+                      label="Mahsulot yoki ko’rsatadigan xizmatingiz haqida batafsil yozing *"
+                      placeholder="Ishlab chiqaradigan mahsulotingiz yoki xizmatingiz haqida batafsil ma'lumot kiriting"
+                      error={errors.businessDescription?.message}
+                      {...register('businessDescription')}
+                    />
+
+                    {isEntrepreneur && (
                       <>
-                        <div className="border-b border-outline-variant/30 pb-3 mb-2">
-                          <h2 className="font-montserrat text-base font-extrabold text-primary">2-BO’LIM. Biznesingiz haqida</h2>
-                          <p className="text-xs text-on-surface-variant font-medium mt-0.5">Faoliyat yuritayotgan yoki yangi ro&apos;yxatdan o&apos;tgan kompaniyangiz / brendingiz haqida tafsilotlar.</p>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <TextInput
-                            label="Biznesingiz yoki brendingiz nomi *"
-                            placeholder="Nomi kiriting"
-                            error={errors.businessName?.message}
-                            {...register('businessName')}
-                          />
-
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1.5">
                           <div className="w-full flex flex-col space-y-1.5">
                             <label className="text-xs font-inter font-bold uppercase tracking-wider text-primary">
-                              Faoliyat yo’nalishingiz *
+                              Biznes shakli *
                             </label>
                             <select
                               className={`w-full rounded-[8px] bg-white border border-outline-variant/60 px-4 py-3 text-on-surface font-sans text-base sm:text-sm outline-none transition-all duration-200 focus:border-primary-container focus:ring-2 focus:ring-primary/5 ${
-                                errors.businessDirection ? 'border-error focus:border-error focus:ring-error/5' : ''
+                                errors.businessForm ? 'border-error focus:border-error focus:ring-error/5' : ''
                               }`}
-                              value={watchedBusinessDirection}
-                              {...register('businessDirection')}
+                              value={watchedBusinessForm}
+                              {...register('businessForm')}
                             >
                               <option value="">Tanlang...</option>
-                              {directionOptions.map((d) => (
-                                <option key={d} value={d}>{d}</option>
+                              {["MChJ", "YaTT", "O’zini o’zi band qilgan", "Boshqa"].map((bf) => (
+                                <option key={bf} value={bf}>{bf}</option>
                               ))}
                             </select>
-                            {errors.businessDirection && (
+                            {errors.businessForm && (
                               <span className="text-xs font-sans font-medium text-error mt-1 flex items-center">
-                                <span className="mr-1">⚠️</span> {errors.businessDirection.message}
+                                <span className="mr-1">⚠️</span> {errors.businessForm.message}
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="w-full flex flex-col space-y-1.5">
+                            <label className="text-xs font-inter font-bold uppercase tracking-wider text-primary">
+                              Biznesda xodimlar soni *
+                            </label>
+                            <select
+                              className={`w-full rounded-[8px] bg-white border border-outline-variant/60 px-4 py-3 text-on-surface font-sans text-base sm:text-sm outline-none transition-all duration-200 focus:border-primary-container focus:ring-2 focus:ring-primary/5 ${
+                                errors.employeeCount ? 'border-error focus:border-error focus:ring-error/5' : ''
+                              }`}
+                              value={watchedEmployeeCount}
+                              {...register('employeeCount')}
+                            >
+                              <option value="">Tanlang...</option>
+                              {["1-10 nafar", "11-20 nafar", "21-50 nafar", "50+ nafar"].map((ec) => (
+                                <option key={ec} value={ec}>{ec}</option>
+                              ))}
+                            </select>
+                            {errors.employeeCount && (
+                              <span className="text-xs font-sans font-medium text-error mt-1 flex items-center">
+                                <span className="mr-1">⚠️</span> {errors.employeeCount.message}
                               </span>
                             )}
                           </div>
                         </div>
 
-                        <TextArea
-                          label="Mahsulot yoki xizmatingiz haqida qisqacha yozing (2–3 jumla) *"
-                          placeholder="Biznesingiz nimani taqdim qilishi haqida batafsil ma'lumot"
-                          error={errors.businessDescription?.message}
-                          {...register('businessDescription')}
-                        />
-
-                        <div className="w-full flex flex-col space-y-1.5 pt-1.5">
+                        <div className="w-full flex flex-col space-y-1.5 pt-2">
                           <label className="text-xs font-inter font-bold uppercase tracking-wider text-primary">
                             O’rtacha oylik aylanmangiz *
                           </label>
                           <div className="grid grid-cols-2 gap-2.5">
-                            {["0–100 mln", "100–300 mln", "300–500 mln", "500 mln dan ortiq"].map((opt) => (
+                            {["0-100 mln", "100-300 mln", "300-500 mln", "500 mlndan oshiq"].map((opt) => (
                               <button
                                 key={opt}
                                 type="button"
@@ -507,58 +626,21 @@ export default function YbmQuestionnaire() {
                             </span>
                           )}
                         </div>
-
-                        <div className="pt-1.5">
-                          <TextInput
-                            label="Ijtimoiy tarmoq yoki veb-sayt havolangiz"
-                            placeholder="instagram.com/brand, brand.uz (ixtiyoriy)"
-                            error={errors.socialMedia?.message}
-                            {...register('socialMedia')}
-                          />
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="border-b border-outline-variant/30 pb-3 mb-2">
-                          <h2 className="font-montserrat text-base font-extrabold text-primary">3-BO’LIM. G’oyangiz haqida</h2>
-                          <p className="text-xs text-on-surface-variant font-medium mt-0.5">Siz amalga oshirmoqchi bo&apos;lgan biznes g&apos;oyangiz haqida ma&apos;lumot.</p>
-                        </div>
-
-                        <TextArea
-                          label="Biznes g’oyangizni 2–3 jumlada yozing *"
-                          placeholder="Qanday biznes yaratmoqchisiz va qaysi muammoni hal qilasiz?"
-                          error={errors.ideaDescription?.message}
-                          {...register('ideaDescription')}
-                        />
-
-                        <div className="w-full flex flex-col space-y-1.5">
-                          <label className="text-xs font-inter font-bold uppercase tracking-wider text-primary">
-                            G’oyangiz qaysi yo’nalishga tegishli? *
-                          </label>
-                          <select
-                            className={`w-full rounded-[8px] bg-white border border-outline-variant/60 px-4 py-3 text-on-surface font-sans text-base sm:text-sm outline-none transition-all duration-200 focus:border-primary-container focus:ring-2 focus:ring-primary/5 ${
-                              errors.ideaDirection ? 'border-error focus:border-error focus:ring-error/5' : ''
-                            }`}
-                            value={watchedIdeaDirection}
-                            {...register('ideaDirection')}
-                          >
-                            <option value="">Tanlang...</option>
-                            {directionOptions.map((d) => (
-                              <option key={d} value={d}>{d}</option>
-                            ))}
-                          </select>
-                          {errors.ideaDirection && (
-                            <span className="text-xs font-sans font-medium text-error mt-1 flex items-center">
-                              <span className="mr-1">⚠️</span> {errors.ideaDirection.message}
-                            </span>
-                          )}
-                        </div>
                       </>
                     )}
+
+                    <div className="pt-2">
+                      <TextInput
+                        label="Ijtimoiy tarmoqlar yoki veb-sayt havolalari"
+                        placeholder="instagram, telegram, veb-sayt havolalari (ixtiyoriy)"
+                        error={errors.socialMedia?.message}
+                        {...register('socialMedia')}
+                      />
+                    </div>
                   </motion.div>
                 )}
 
-                {/* STEP 3: Final Section */}
+                {/* STEP 3: Business Analysis */}
                 {step === 3 && (
                   <motion.div
                     key="step-3"
@@ -569,20 +651,65 @@ export default function YbmQuestionnaire() {
                     className="space-y-4"
                   >
                     <div className="border-b border-outline-variant/30 pb-3 mb-2">
-                      <h2 className="font-montserrat text-base font-extrabold text-primary">4-BO’LIM. Yakuniy savollar</h2>
-                      <p className="text-xs text-on-surface-variant font-medium mt-0.5">Dasturga ariza topshirishdagi maqsadlaringiz va qiziqishlaringiz.</p>
+                      <h2 className="font-montserrat text-base font-extrabold text-primary">3-BO’LIM. Biznes tahlili</h2>
+                      <p className="text-xs text-on-surface-variant font-medium mt-0.5">Biznesingizning o&apos;sishi, raqobatdoshligi va muammolari haqida ma&apos;lumotlar {!isEntrepreneur && <span className="font-bold text-secondary">(G&apos;oya egasi uchun ixtiyoriy)</span>}.</p>
                     </div>
 
                     <TextArea
-                      label="Yoshlar Biznes Maktabidan qanday natija kutasiz? *"
-                      placeholder="Dastur davomida qaysi bilimlarni olmoqchisiz yoki maqsadlaringiz qanday?"
-                      error={errors.expectedResults?.message}
-                      {...register('expectedResults')}
+                      label={isEntrepreneur ? "Biznesingizni raqobatchilardan ajratib turadigan jihat nima? *" : "Biznesingizni raqobatchilardan ajratib turadigan jihat nima? (ixtiyoriy)"}
+                      placeholder="Raqobatchilardan qanday farq qilasiz?"
+                      error={errors.competitiveAdvantage?.message}
+                      {...register('competitiveAdvantage')}
                     />
 
-                    <div className="w-full flex flex-col space-y-1.5 pt-2">
+                    <TextArea
+                      label={isEntrepreneur ? "Oxirgi 6 oyda qancha o’sishga erishdingiz? *" : "Oxirgi 6 oyda qancha o’sishga erishdingiz? (ixtiyoriy)"}
+                      placeholder="O'sish sur'atlari, ko'rsatkichlar yoki yutuqlar"
+                      error={errors.growthSixMonths?.message}
+                      {...register('growthSixMonths')}
+                    />
+
+                    <TextArea
+                      label={isEntrepreneur ? "Besh yildan keyin biznesingizni qanday tasavvur qilasiz? *" : "Besh yildan keyin biznesingizni qanday tasavvur qilasiz? (ixtiyoriy)"}
+                      placeholder="Kelajakdagi maqsadlaringiz va rejalaringiz"
+                      error={errors.fiveYearVision?.message}
+                      {...register('fiveYearVision')}
+                    />
+
+                    <TextArea
+                      label={isEntrepreneur ? "Biznesingiz jamiyatdagi nima og’riqni hal qilmoqda? *" : "Biznesingiz jamiyatdagi nima og’riqni hal qilmoqda? (ixtiyoriy)"}
+                      placeholder="Jamiyatga keltiradigan foydangiz yoki yechimlar"
+                      error={errors.painSolved?.message}
+                      {...register('painSolved')}
+                    />
+
+                    <TextArea
+                      label={isEntrepreneur ? "Biznesingizdagi asosiy qiyinchiliklar nimada? *" : "Biznesingizdagi asosiy qiyinchiliklar nimada? (ixtiyoriy)"}
+                      placeholder="Qaysi muammolarga duch kelyapsiz va qanday ko'mak zarur?"
+                      error={errors.mainChallenges?.message}
+                      {...register('mainChallenges')}
+                    />
+                  </motion.div>
+                )}
+
+                {/* STEP 4: Final Section */}
+                {step === 4 && (
+                  <motion.div
+                    key="step-4"
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.2 }}
+                    className="space-y-4"
+                  >
+                    <div className="border-b border-outline-variant/30 pb-3 mb-2">
+                      <h2 className="font-montserrat text-base font-extrabold text-primary">4-BO’LIM. Yakuniy savollar</h2>
+                      <p className="text-xs text-on-surface-variant font-medium mt-0.5">Dasturga topshirish sabablari va kutilayotgan natijalar.</p>
+                    </div>
+
+                    <div className="w-full flex flex-col space-y-1.5">
                       <label className="text-xs font-inter font-bold uppercase tracking-wider text-primary">
-                        Biz haqimizda qayerdan bilib oldingiz?
+                        Bizni qayerdan topdinggiz?
                       </label>
                       <select
                         className={`w-full rounded-[8px] bg-white border border-outline-variant/60 px-4 py-3 text-on-surface font-sans text-base sm:text-sm outline-none transition-all duration-200 focus:border-primary-container focus:ring-2 focus:ring-primary/5 ${
@@ -607,6 +734,13 @@ export default function YbmQuestionnaire() {
                         </span>
                       )}
                     </div>
+
+                    <TextArea
+                      label="Yoshlar Biznes Maktabidan asosiy kutayotgan natijangiz nima? *"
+                      placeholder="Ushbu dasturdan nimalarni kutmoqdasiz?"
+                      error={errors.expectedResults?.message}
+                      {...register('expectedResults')}
+                    />
                   </motion.div>
                 )}
 
@@ -627,7 +761,7 @@ export default function YbmQuestionnaire() {
                 </button>
               )}
 
-              {step < 3 ? (
+              {step < 4 ? (
                 <button
                   type="button"
                   onClick={nextStep}
