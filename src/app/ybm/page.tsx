@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
@@ -117,12 +117,18 @@ export default function YbmQuestionnaire() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [step4Timestamp, setStep4Timestamp] = useState<number>(0);
 
+  // Connection status & Toast state
+  const [isOnline, setIsOnline] = useState<boolean>(true);
+  const [showConnectionToast, setShowConnectionToast] = useState<'online' | 'offline' | null>(null);
+  const [isSubmissionSlow, setIsSubmissionSlow] = useState<boolean>(false);
+
   const {
     register,
     handleSubmit,
     control,
     watch,
     setValue,
+    reset,
     trigger,
     formState: { errors, isSubmitting },
   } = useForm<YbmFormValues>({
@@ -152,14 +158,60 @@ export default function YbmQuestionnaire() {
     },
   });
 
-  const watchedStatus = watch('businessStatus');
-  const watchedRegion = watch('region');
-  const watchedGender = watch('gender');
-  const watchedBusinessDirection = watch('businessDirection');
-  const watchedBusinessForm = watch('businessForm');
-  const watchedEmployeeCount = watch('employeeCount');
-  const watchedTurnover = watch('monthlyTurnover');
-  const watchedSource = watch('discoverySource');
+  // Load draft from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsOnline(navigator.onLine);
+      const draft = localStorage.getItem('ybm_registration_draft');
+      if (draft) {
+        try {
+          const parsed = JSON.parse(draft);
+          reset(parsed, { keepDefaultValues: true });
+        } catch (e) {
+          console.error("Failed to restore draft:", e);
+        }
+      }
+    }
+  }, [reset]);
+
+  const watchedValues = watch();
+
+  // Save draft to localStorage on values change
+  useEffect(() => {
+    if (typeof window !== 'undefined' && Object.keys(watchedValues).length > 0) {
+      localStorage.setItem('ybm_registration_draft', JSON.stringify(watchedValues));
+    }
+  }, [watchedValues]);
+
+  // Online / Offline event listeners
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handleOnline = () => {
+      setIsOnline(true);
+      setShowConnectionToast('online');
+      const timer = setTimeout(() => setShowConnectionToast(null), 3000);
+      return () => clearTimeout(timer);
+    };
+    const handleOffline = () => {
+      setIsOnline(false);
+      setShowConnectionToast('offline');
+    };
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+  const watchedStatus = watchedValues.businessStatus;
+  const watchedRegion = watchedValues.region;
+  const watchedGender = watchedValues.gender;
+  const watchedBusinessDirection = watchedValues.businessDirection;
+  const watchedBusinessForm = watchedValues.businessForm;
+  const watchedEmployeeCount = watchedValues.employeeCount;
+  const watchedTurnover = watchedValues.monthlyTurnover;
+  const watchedSource = watchedValues.discoverySource;
 
   const isEntrepreneur = watchedStatus !== "G’oya egasi";
 
@@ -206,7 +258,21 @@ export default function YbmQuestionnaire() {
     if (step < 4 || (Date.now() - step4Timestamp < 600)) {
       return;
     }
+
+    // Offline block
+    if (typeof window !== 'undefined' && !navigator.onLine) {
+      setSubmitError("Siz oflaynsiz. Iltimos, internet aloqangizni tekshirib, qayta urinib ko'ring.");
+      return;
+    }
+
     setSubmitError(null);
+    setIsSubmissionSlow(false);
+
+    // Timeout alert for weak network
+    const slowTimer = setTimeout(() => {
+      setIsSubmissionSlow(true);
+    }, 5000);
+
     const fullPhoneNumber = `+998${values.phoneNumber}`;
 
     const payload = {
@@ -232,19 +298,29 @@ export default function YbmQuestionnaire() {
       discovery_source: values.discoverySource || undefined,
     };
 
-    const result = await submitYbmRegistration(payload);
+    try {
+      const result = await submitYbmRegistration(payload);
+      clearTimeout(slowTimer);
+      setIsSubmissionSlow(false);
 
-    if (result.success) {
-      if (typeof window !== 'undefined') {
-        sessionStorage.setItem('ybm_last_registration_details', JSON.stringify({
-          fullName: values.fullName,
-          businessName: isEntrepreneur ? values.businessName : values.businessDescription.substring(0, 30) + "...",
-          isEntrepreneur,
-        }));
+      if (result.success) {
+        if (typeof window !== 'undefined') {
+          // Clear draft on success
+          localStorage.removeItem('ybm_registration_draft');
+          sessionStorage.setItem('ybm_last_registration_details', JSON.stringify({
+            fullName: values.fullName,
+            businessName: isEntrepreneur ? values.businessName : values.businessDescription.substring(0, 30) + "...",
+            isEntrepreneur,
+          }));
+        }
+        router.push('/ybm/success');
+      } else {
+        setSubmitError(result.error || "Tizimga yuborishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
       }
-      router.push('/ybm/success');
-    } else {
-      setSubmitError(result.error || "Tizimga yuborishda xatolik yuz berdi. Iltimos, qayta urinib ko'ring.");
+    } catch (e: any) {
+      clearTimeout(slowTimer);
+      setIsSubmissionSlow(false);
+      setSubmitError(e.message || "Kutilmagan xatolik yuz berdi. Aloqani tekshirib qayta urining.");
     }
   };
 
@@ -261,6 +337,23 @@ export default function YbmQuestionnaire() {
 
   return (
     <div className="w-full flex-grow flex flex-col justify-start items-center bg-background px-3 py-4 sm:px-6 sm:py-8">
+      {/* Offline Status Toast */}
+      {showConnectionToast && (
+        <div
+          className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full shadow-lg text-xs font-semibold font-sans transition-all duration-300 flex items-center space-x-2 border ${
+            showConnectionToast === 'offline'
+              ? 'bg-error-container text-on-error-container border-error/20'
+              : 'bg-green-50 text-green-800 border-green-200'
+          }`}
+        >
+          <span>
+            {showConnectionToast === 'offline' 
+              ? '⚠️ Oflayn rejim. Ma\'lumotlaringiz qurilma xotirasida xavfsiz saqlanmoqda.' 
+              : '✅ Aloqa tiklandi!'}
+          </span>
+        </div>
+      )}
+
       {/* Decorative Blurs */}
       <div className="absolute top-[10%] left-[-5%] w-96 h-96 rounded-full bg-secondary/15 blur-3xl pointer-events-none" />
       <div className="absolute top-[40%] right-[-5%] w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
@@ -367,10 +460,11 @@ export default function YbmQuestionnaire() {
                 {step === 1 && (
                   <motion.div
                     key="step-1"
-                    initial={{ opacity: 0, x: 50 }}
+                    initial={{ opacity: 0, x: 30 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.2 }}
+                    exit={{ opacity: 0, x: -30 }}
+                    transition={{ duration: 0.15, ease: "easeInOut" }}
+                    style={{ willChange: "transform, opacity" }}
                     className="space-y-4"
                   >
                     <div className="border-b border-outline-variant/30 pb-3 mb-2">
@@ -469,10 +563,11 @@ export default function YbmQuestionnaire() {
                 {step === 2 && (
                   <motion.div
                     key="step-2"
-                    initial={{ opacity: 0, x: 50 }}
+                    initial={{ opacity: 0, x: 30 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.2 }}
+                    exit={{ opacity: 0, x: -30 }}
+                    transition={{ duration: 0.15, ease: "easeInOut" }}
+                    style={{ willChange: "transform, opacity" }}
                     className="space-y-4"
                   >
                     <div className="border-b border-outline-variant/30 pb-3 mb-2">
@@ -644,10 +739,11 @@ export default function YbmQuestionnaire() {
                 {step === 3 && (
                   <motion.div
                     key="step-3"
-                    initial={{ opacity: 0, x: 50 }}
+                    initial={{ opacity: 0, x: 30 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.2 }}
+                    exit={{ opacity: 0, x: -30 }}
+                    transition={{ duration: 0.15, ease: "easeInOut" }}
+                    style={{ willChange: "transform, opacity" }}
                     className="space-y-4"
                   >
                     <div className="border-b border-outline-variant/30 pb-3 mb-2">
@@ -696,10 +792,11 @@ export default function YbmQuestionnaire() {
                 {step === 4 && (
                   <motion.div
                     key="step-4"
-                    initial={{ opacity: 0, x: 50 }}
+                    initial={{ opacity: 0, x: 30 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.2 }}
+                    exit={{ opacity: 0, x: -30 }}
+                    transition={{ duration: 0.15, ease: "easeInOut" }}
+                    style={{ willChange: "transform, opacity" }}
                     className="space-y-4"
                   >
                     <div className="border-b border-outline-variant/30 pb-3 mb-2">
@@ -777,13 +874,20 @@ export default function YbmQuestionnaire() {
                   className="flex-grow flex justify-center items-center rounded-xl bg-gradient-to-r from-primary to-primary-container hover:from-primary-container hover:to-primary text-white font-inter font-bold text-sm tracking-wider py-3.5 px-6 shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-secondary disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {isSubmitting ? (
-                    <>
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                      </svg>
-                      YUBORILMOQDA...
-                    </>
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-center">
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        <span>YUBORILMOQDA...</span>
+                      </div>
+                      {isSubmissionSlow && (
+                        <span className="text-[10px] text-white/80 font-medium mt-1 animate-pulse">
+                          Aloqa sekin, iltimos kuting...
+                        </span>
+                      )}
+                    </div>
                   ) : (
                     "YUBORISH"
                   )}
