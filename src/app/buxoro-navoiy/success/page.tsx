@@ -7,7 +7,7 @@ import { Check, Home, MapPin, Calendar, Clock, Sparkles } from 'lucide-react';
 
 interface RegistrationDetails {
   firstName: string;
-  location: 'Qashqafaryo';
+  location: 'Qashqadaryo' | 'Jizzax' | 'Sirdaryo';
   isEntrepreneur: boolean;
 }
 
@@ -28,17 +28,34 @@ export default function BuxoroNavoiySuccess() {
     }
   }, []);
 
-  const location = details?.location || 'Qashqafaryo';
+  const location = details?.location || 'Qashqadaryo';
   const name = details?.firstName || 'Ishtirokchi';
 
   const eventInfo = {
-    Qashqafaryo: {
+    Qashqadaryo: {
       date: '2026-yil 15-iyun',
       time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
       park: 'Shahrisabz, Amir Temur xiyoboni',
       accentColor: 'from-secondary to-secondary-fixed-dim',
     },
-  }[location];
+    Jizzax: {
+      date: '2026-yil 16-iyun',
+      time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
+      park: 'Jizzax shahri, Yoshlar sayilgohi',
+      accentColor: 'from-primary to-primary-container',
+    },
+    Sirdaryo: {
+      date: '2026-yil 18-iyun',
+      time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
+      park: 'Guliston shahri, "Bilimdonlar maskani"',
+      accentColor: 'from-tertiary to-tertiary-container',
+    },
+  }[location] || {
+    date: '2026-yil 15-iyun',
+    time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
+    park: 'Shahrisabz, Amir Temur xiyoboni',
+    accentColor: 'from-secondary to-secondary-fixed-dim',
+  };
 
   return (
     <div className="w-full flex-grow flex flex-col justify-center items-center bg-background px-4 py-8">
@@ -85,7 +102,7 @@ export default function BuxoroNavoiySuccess() {
           <div className="border-b border-outline-variant/35 pb-2.5">
             <span className="text-[10px] font-inter font-extrabold uppercase tracking-widest text-primary/70">TADBIR TAFSILOTLARI</span>
             <h3 className="font-montserrat text-sm font-extrabold text-primary mt-0.5">
-              {(location === 'Qashqafaryo' ? 'Qashqadaryo' : location).toUpperCase()} VILOYATI BOOTCAMP
+              {location.toUpperCase()} VILOYATI BOOTCAMP
             </h3>
           </div>
 

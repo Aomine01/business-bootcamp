@@ -49,7 +49,7 @@ export default function BuxoroNavoiySurvey() {
     resolver: zodResolver(surveySchema),
     mode: 'onChange',
     defaultValues: {
-      location: 'Qashqafaryo',
+      location: '',
       firstName: '',
       surname: '',
       phoneNumber: '',
@@ -293,8 +293,8 @@ export default function BuxoroNavoiySurvey() {
                       {/* Qashqadaryo Card */}
                       <button
                         type="button"
-                        onClick={() => setValue('location', 'Qashqafaryo', { shouldValidate: true })}
-                        className={`flex flex-col text-left p-3.5 sm:p-5 rounded-2xl border-2 transition-all duration-300 relative overflow-hidden group cursor-pointer ${watchedLocation === 'Qashqafaryo'
+                        onClick={() => setValue('location', 'Qashqadaryo', { shouldValidate: true })}
+                        className={`flex flex-col text-left p-3.5 sm:p-5 rounded-2xl border-2 transition-all duration-300 relative overflow-hidden group cursor-pointer ${watchedLocation === 'Qashqadaryo'
                             ? 'border-secondary bg-secondary/5 ring-4 ring-secondary/5 shadow-md'
                             : 'border-outline-variant/50 hover:border-primary/40 bg-white hover:bg-surface-low'
                           }`}
@@ -307,7 +307,7 @@ export default function BuxoroNavoiySurvey() {
                             <span className="text-[10px] sm:text-xs font-inter font-extrabold tracking-wider text-secondary uppercase bg-secondary/10 px-2 py-0.5 rounded-full">
                               15-IYUN, 2026
                             </span>
-                            {watchedLocation === 'Qashqafaryo' && (
+                            {watchedLocation === 'Qashqadaryo' && (
                               <div className="bg-secondary text-white rounded-full p-0.5">
                                 <Check size={14} strokeWidth={3} />
                               </div>
@@ -322,6 +322,78 @@ export default function BuxoroNavoiySurvey() {
                           </p>
                           <p className="font-sans text-xs text-on-surface-variant/80 mt-1.5">
                             Shahrisabz shahridagi Amir Temur xiyoboni hududi. Innovatsion g&apos;oyalar taqdimoti va mentorlik sessiyalari.
+                          </p>
+                        </div>
+                      </button>
+
+                      {/* Jizzax Card */}
+                      <button
+                        type="button"
+                        onClick={() => setValue('location', 'Jizzax', { shouldValidate: true })}
+                        className={`flex flex-col text-left p-3.5 sm:p-5 rounded-2xl border-2 transition-all duration-300 relative overflow-hidden group cursor-pointer ${watchedLocation === 'Jizzax'
+                            ? 'border-primary bg-primary/5 ring-4 ring-primary/5 shadow-md'
+                            : 'border-outline-variant/50 hover:border-primary/40 bg-white hover:bg-surface-low'
+                          }`}
+                      >
+                        {/* Colorful Side Ribbon (Jizzax Colors) */}
+                        <div className="absolute left-0 top-0 bottom-0 w-2.5 bg-primary" />
+
+                        <div className="pl-3">
+                          <div className="flex justify-between items-start">
+                            <span className="text-[10px] sm:text-xs font-inter font-extrabold tracking-wider text-primary uppercase bg-primary/10 px-2 py-0.5 rounded-full">
+                              16-IYUN, 2026
+                            </span>
+                            {watchedLocation === 'Jizzax' && (
+                              <div className="bg-primary text-white rounded-full p-0.5">
+                                <Check size={14} strokeWidth={3} />
+                              </div>
+                            )}
+                          </div>
+
+                          <h3 className="font-montserrat text-base sm:text-lg font-extrabold text-primary mt-2">
+                            JIZZAX VILOYATI
+                          </h3>
+                          <p className="font-sans text-xs sm:text-sm text-on-surface-variant mt-1.5 leading-relaxed font-semibold">
+                            📍 Jizzax shahri, Yoshlar sayilgohi
+                          </p>
+                          <p className="font-sans text-xs text-on-surface-variant/80 mt-1.5">
+                            Jizzax shahridagi Yoshlar sayilgohi hududi. Innovatsion g&apos;oyalar taqdimoti va mentorlik sessiyalari.
+                          </p>
+                        </div>
+                      </button>
+
+                      {/* Sirdaryo Card */}
+                      <button
+                        type="button"
+                        onClick={() => setValue('location', 'Sirdaryo', { shouldValidate: true })}
+                        className={`flex flex-col text-left p-3.5 sm:p-5 rounded-2xl border-2 transition-all duration-300 relative overflow-hidden group cursor-pointer ${watchedLocation === 'Sirdaryo'
+                            ? 'border-tertiary bg-tertiary/5 ring-4 ring-tertiary/5 shadow-md'
+                            : 'border-outline-variant/50 hover:border-primary/40 bg-white hover:bg-surface-low'
+                          }`}
+                      >
+                        {/* Colorful Side Ribbon (Sirdaryo Colors) */}
+                        <div className="absolute left-0 top-0 bottom-0 w-2.5 bg-tertiary" />
+
+                        <div className="pl-3">
+                          <div className="flex justify-between items-start">
+                            <span className="text-[10px] sm:text-xs font-inter font-extrabold tracking-wider text-tertiary uppercase bg-tertiary/10 px-2 py-0.5 rounded-full">
+                              18-IYUN, 2026
+                            </span>
+                            {watchedLocation === 'Sirdaryo' && (
+                              <div className="bg-tertiary text-white rounded-full p-0.5">
+                                <Check size={14} strokeWidth={3} />
+                              </div>
+                            )}
+                          </div>
+
+                          <h3 className="font-montserrat text-base sm:text-lg font-extrabold text-primary mt-2">
+                            SIRDARYO VILOYATI
+                          </h3>
+                          <p className="font-sans text-xs sm:text-sm text-on-surface-variant mt-1.5 leading-relaxed font-semibold">
+                            📍 Guliston shahri, &quot;Bilimdonlar maskani&quot;
+                          </p>
+                          <p className="font-sans text-xs text-on-surface-variant/80 mt-1.5">
+                            Guliston shahridagi &quot;Bilimdonlar maskani&quot; majmuasi. Innovatsion g&apos;oyalar taqdimoti va mentorlik sessiyalari.
                           </p>
                         </div>
                       </button>
@@ -562,16 +634,20 @@ export default function BuxoroNavoiySurvey() {
                       <div className="grid grid-cols-2 gap-3 text-xs sm:text-sm font-sans">
                         <div>
                           <span className="text-on-surface-variant/75 font-semibold block text-[10px] sm:text-[11px] uppercase">HUDUD:</span>
-                          <span className="font-bold text-primary text-xs sm:text-sm">Qashqadaryo viloyati</span>
+                          <span className="font-bold text-primary text-xs sm:text-sm">
+                            {watchedLocation === 'Qashqadaryo' ? 'Qashqadaryo' : watchedLocation === 'Jizzax' ? 'Jizzax' : 'Sirdaryo'} viloyati
+                          </span>
                         </div>
                         <div>
                           <span className="text-on-surface-variant/75 font-semibold block text-[10px] sm:text-[11px] uppercase">TADBIR VAQTI:</span>
-                          <span className="font-bold text-secondary text-xs sm:text-sm">15-Iyun, 2026</span>
+                          <span className="font-bold text-secondary text-xs sm:text-sm">
+                            {watchedLocation === 'Qashqadaryo' ? '15-Iyun, 2026' : watchedLocation === 'Jizzax' ? '16-Iyun, 2026' : '18-Iyun, 2026'}
+                          </span>
                         </div>
                         <div className="col-span-2">
                           <span className="text-on-surface-variant/75 font-semibold block text-[10px] sm:text-[11px] uppercase">MANZIL:</span>
                           <span className="font-bold text-primary text-xs sm:text-sm leading-normal">
-                            Shahrisabz, Amir Temur xiyoboni
+                            {watchedLocation === 'Qashqadaryo' ? 'Shahrisabz, Amir Temur xiyoboni' : watchedLocation === 'Jizzax' ? 'Jizzax shahri, Yoshlar sayilgohi' : 'Guliston shahri, "Bilimdonlar maskani"'}
                           </span>
                         </div>
                       </div>
