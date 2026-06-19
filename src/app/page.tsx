@@ -96,7 +96,7 @@ export default function Home() {
                 Yaqinda bo&apos;lib o&apos;tadi
               </span>
               <h2 className="font-montserrat text-xl sm:text-2xl font-extrabold tracking-tight">
-                Qashqadaryo, Jizzax & Sirdaryo Biznes Bootcamp 2026
+                Namangan Biznes Bootcamp 2026
               </h2>
               <p className="font-sans text-xs sm:text-sm text-white/80 max-w-lg leading-relaxed">
                 Tadbirkorlikni boshlash, kengaytirish va yangi g&apos;oyalarni amalda tatbiq etish bo&apos;yicha maxsus master-klasslar va mentorlik darslari.
@@ -106,22 +106,8 @@ export default function Home() {
                 <div className="flex items-center gap-2.5 text-white/90">
                   <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 text-secondary-fixed text-sm">📍</span>
                   <div>
-                    <span className="font-bold block text-sm">Qashqadaryo: 15-Iyun</span>
-                    <span className="text-[11px] text-white/70">Shahrisabz, Amir Temur xiyoboni</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2.5 text-white/90">
-                  <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 text-secondary-fixed text-sm">📍</span>
-                  <div>
-                    <span className="font-bold block text-sm">Jizzax: 16-Iyun</span>
-                    <span className="text-[11px] text-white/70">Jizzax shahri, Yoshlar sayilgohi</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2.5 text-white/90">
-                  <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 text-secondary-fixed text-sm">📍</span>
-                  <div>
-                    <span className="font-bold block text-sm">Sirdaryo: 18-Iyun</span>
-                    <span className="text-[11px] text-white/70">Guliston shahri, &quot;Bilimdonlar maskani&quot;</span>
+                    <span className="font-bold block text-sm">Namangan shahri: 20-Iyun, 16:00 da</span>
+                    <span className="text-[11px] text-white/70">Adiblar xiyobonida</span>
                   </div>
                 </div>
               </div>

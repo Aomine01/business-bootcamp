@@ -7,7 +7,7 @@ import { Check, Home, MapPin, Calendar, Clock, Sparkles } from 'lucide-react';
 
 interface RegistrationDetails {
   firstName: string;
-  location: 'Qashqadaryo' | 'Jizzax' | 'Sirdaryo';
+  location: 'Qashqadaryo' | 'Jizzax' | 'Sirdaryo' | 'Namangan';
   isEntrepreneur: boolean;
 }
 
@@ -28,32 +28,20 @@ export default function BuxoroNavoiySuccess() {
     }
   }, []);
 
-  const location = details?.location || 'Qashqadaryo';
+  const location = details?.location || 'Namangan';
   const name = details?.firstName || 'Ishtirokchi';
 
   const eventInfo = {
-    Qashqadaryo: {
-      date: '2026-yil 15-iyun',
-      time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
-      park: 'Shahrisabz, Amir Temur xiyoboni',
+    Namangan: {
+      date: '2026-yil 20-iyun',
+      time: '16:00 (Ro\'yxatga olish 15:30 da boshlanadi)',
+      park: 'Namangan shahri, Adiblar xiyobonida',
       accentColor: 'from-secondary to-secondary-fixed-dim',
     },
-    Jizzax: {
-      date: '2026-yil 16-iyun',
-      time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
-      park: 'Jizzax shahri, Yoshlar sayilgohi',
-      accentColor: 'from-primary to-primary-container',
-    },
-    Sirdaryo: {
-      date: '2026-yil 18-iyun',
-      time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
-      park: 'Guliston shahri, "Bilimdonlar maskani"',
-      accentColor: 'from-tertiary to-tertiary-container',
-    },
-  }[location] || {
-    date: '2026-yil 15-iyun',
-    time: '18:00 (Ro\'yxatga olish 17:30 da boshlanadi)',
-    park: 'Shahrisabz, Amir Temur xiyoboni',
+  }[location as 'Namangan'] || {
+    date: '2026-yil 20-iyun',
+    time: '16:00 (Ro\'yxatga olish 15:30 da boshlanadi)',
+    park: 'Namangan shahri, Adiblar xiyobonida',
     accentColor: 'from-secondary to-secondary-fixed-dim',
   };
 
@@ -102,7 +90,7 @@ export default function BuxoroNavoiySuccess() {
           <div className="border-b border-outline-variant/35 pb-2.5">
             <span className="text-[10px] font-inter font-extrabold uppercase tracking-widest text-primary/70">TADBIR TAFSILOTLARI</span>
             <h3 className="font-montserrat text-sm font-extrabold text-primary mt-0.5">
-              {location.toUpperCase()} VILOYATI BOOTCAMP
+              {location === 'Namangan' ? 'NAMANGAN SHAHRI' : location.toUpperCase()} BOOTCAMP
             </h3>
           </div>
 
